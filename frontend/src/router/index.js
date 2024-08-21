@@ -6,6 +6,9 @@ import ViewArticles from '../views/ViewArticle.vue'
 import WriteArticles from '../views/WriteArticle.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/SignIn.vue'
+import UserManagement from '../views/userManagement.vue'
+import RoleManagement from '../views/roleManagement.vue'
+import MenuManagement from '../views/menuManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -42,7 +45,21 @@ const routes = [
         name: 'signin',
         component: Register,
         meta: {noMenu: true}
-
+    }, {
+        path: '/userManagement',
+        name: 'userManagement',
+        component: UserManagement,
+        meta: {noMenu: false},
+    }, {
+        path: '/roleManagement',
+        name: 'roleManagement',
+        component: RoleManagement,
+        meta: {noMenu: false},
+    }, {
+        path: '/menuManagement',
+        name: 'menuManagement',
+        component: MenuManagement,
+        meta: {noMenu: false},
     }
 ]
 

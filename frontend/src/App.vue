@@ -1,28 +1,25 @@
 <template>
   <div id="app">
     <el-container>
-      <el-aside width="600px" v-if="!$route.meta.noMenu">
-        <el-row class="tac">
-          <el-col :span="12">
+      <el-aside v-if="!$route.meta.noMenu">
+        <el-row class="">
+          <el-col>
             <h5>菜单栏</h5>
-            <el-menu
-                default-active="2"
-                class="el-menu-vertical-demo">
-              <el-menu-item v-for="menuItem in this.menuList" :key="menuList.ID" @click="goPages(menuItem.Path)">
-                <i class="el-icon-s-claim"></i>
-                <span slot="title">{{ menuItem.Name}}</span>
+            <el-menu>
+              <el-menu-item v-for="menuItem in this.menuList" :key="menuList.id" @click="goPages(menuItem.path)">
+                <!--                <i class="el-icon-s-claim"></i>-->
+                <span slot="title">{{ menuItem.name }}</span>
               </el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
       </el-aside>
-      <el-container>
-        <el-main>
+        <el-main id="main">
           <!--  用于右侧显示内容区          -->
           <router-view></router-view>
         </el-main>
-      </el-container>
     </el-container>
+
   </div>
 </template>
 
@@ -46,9 +43,9 @@ export default {
       this.$router.push("/viewArticles").catch(() => {
       })
     },
-    goPages(url){
-      console.log(url)
-      this.$router.push(url).catch(()=>{})
+    goPages(url) {
+      this.$router.push(url).catch(() => {
+      })
     },
     //获取当前用户的菜单列表
     getMenu() {
@@ -85,13 +82,28 @@ export default {
 
 
 <style>
+
+html, body,#app ,.el-container{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  //color: #2c3e50;
+  //background-color: #2c3e50;
 }
+
+.el-main {
+  text-align: center;
+  height: 100%;
+}
+
 
 nav {
   padding: 30px;
