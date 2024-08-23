@@ -51,7 +51,7 @@ export default {
     getMenu() {
       const token = this.getToken()
       if (token) {
-        axios.get("http://127.0.0.1:8088/v2/sys/menu", {
+        axios.get("http://127.0.0.1:8088/v2/menus/list", {
           headers: {
             'Authorization': `Bearer ${token}`
           }
