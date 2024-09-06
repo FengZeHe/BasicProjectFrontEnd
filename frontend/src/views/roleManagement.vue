@@ -24,7 +24,9 @@
 
     <el-drawer
         size="70%"
-        :visible.sync="drawer">
+        :visible.sync="drawer"
+        @close="handleDrawerClose"
+    >
 
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item class="menu-item">
@@ -79,6 +81,7 @@ export default {
   methods: {
     HandleEditClick(roleName) {
       this.getRoleMenu(roleName)
+      this.getRoleApi(roleName)
       this.form.roleName = roleName;
       this.drawer = true
     },
@@ -114,6 +117,9 @@ export default {
           }
         }).then(res => {
           var list = res.data.data
+          if (list == null){
+            return
+          }
           for (var i = 0; i < list.length; i++) {
             var temp = {
               key: list[i].id,
@@ -130,17 +136,22 @@ export default {
     getApi() {
       const token = this.getToken()
       if (token) {
-        axios.get("http://127.0.0.1:8088/v2/sys/apiList", {
+        axios.get("http://127.0.0.1:8088/v2/sys/AllApiList", {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         }).then(res => {
           var list = res.data.data
+          if (list == null){
+            return
+          }
           for (var i = 0; i < list.length; i++) {
             var temp = {
               key: list[i].id,
               label: list[i].name,
-              disable: false
+              disable: false,
+              path: list[i].url,
+              methods: list[i].methods
             }
             this.apiList.push(temp)
           }
@@ -160,6 +171,9 @@ export default {
           },
         }).then(res => {
           var list = res.data.data
+          if (list == null){
+            return
+          }
           for (var i = 0; i < list.length; i++) {
             this.form.menuValue.push(list[i].id)
           }
@@ -168,15 +182,21 @@ export default {
         })
       }
     },
-    getRoleApi() {
+    getRoleApi(roleName) {
       const token = this.getToken()
+      const postData = {
+        role_name: roleName,
+      };
       if (token) {
-        axios.get("http://127.0.0.1:8088/v2/sys/api", {
+        axios.post("http://127.0.0.1:8088/v2/sys/RoleAPIList", postData, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
         }).then(res => {
           var list = res.data.data
+          if (list == null){
+            return
+          }
           for (var i = 0; i < list.length; i++) {
             this.form.apiValue.push(list[i].id)
           }
@@ -186,47 +206,60 @@ export default {
     HandleUpdateCasbinRules() {
 
       const token = this.getToken()
-      //获取未授权区的数组
-      const unselectedItems = this.menuList.filter(item => !this.form.menuValue.includes(item.key));
-      const selectedItems = this.menuList.filter(item => this.form.menuValue.includes(item.key));
+      //获取未授权区的数组与已授权的数组
+      const unselectedMenuItems = this.menuList.filter(item => !this.form.menuValue.includes(item.key));
+      const selectedMenuItems = this.menuList.filter(item => this.form.menuValue.includes(item.key));
+
+      //获取未授权和已授权的API
+      const unselectedApiItems = this.apiList.filter(item => !this.form.apiValue.includes(item.key));
+      const selectedApiItems = this.apiList.filter(item => this.form.apiValue.includes(item.key));
+
+      const unselectedItems = [...unselectedMenuItems, ...unselectedApiItems]
+      const selectedItems = [...selectedMenuItems, ...selectedApiItems]
+
 
       const oldPolicies = [], newPolicies = [];
+
       unselectedItems.forEach(item => {
         oldPolicies.push([this.form.roleName, item.path, item.methods])
       })
-
       selectedItems.forEach(item => {
         newPolicies.push([this.form.roleName, item.path, item.methods])
       })
-      console.log(oldPolicies,newPolicies)
-      const  data = {
-        old_policies:oldPolicies,
-        new_policies:newPolicies
+
+
+      const data = {
+        old_policies: oldPolicies,
+        new_policies: newPolicies
       }
 
 
       if (token) {
-          axios.post("http://127.0.0.1:8088/v2/sys/updatePolicies",data,{
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          }).then(res => {
-            console.log(res)
-            this.$notify({
-              title: '成功',
-              message: '操作成功',
-              type: 'success'
-            });
-            this.drawer = false
-          }).catch(err => {
-            console.log(err)
-            this.$notify.error({
-              title: '错误',
-              message: '操作失败'
-            });
-          })
+        axios.post("http://127.0.0.1:8088/v2/sys/updatePolicies", data, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(res => {
+          console.log(res)
+          this.$notify({
+            title: '成功',
+            message: '操作成功',
+            type: 'success'
+          });
+          this.drawer = false
+        }).catch(err => {
+          console.log(err)
+          this.$notify.error({
+            title: '错误',
+            message: '操作失败'
+          });
+        })
       }
     },
+    handleDrawerClose() {
+      this.form.apiValue = []
+      this.form.menuValue = []
+    }
 
 
   },
@@ -234,7 +267,7 @@ export default {
     this.getRoles();
     this.getMenus();
     this.getApi();
-    this.getRoleApi();
+    // this.getRoleApi();
   }
 }
 
