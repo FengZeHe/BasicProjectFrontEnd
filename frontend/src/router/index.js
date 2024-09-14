@@ -9,6 +9,7 @@ import Register from '../views/SignIn.vue'
 import UserManagement from '../views/userManagement.vue'
 import RoleManagement from '../views/roleManagement.vue'
 import MenuManagement from '../views/menuManagement.vue'
+import DraftList from '../views/draftList.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
         path: '/writeArticles',
         name: 'writeArticles',
         component: WriteArticles,
+        meta: {noMenu: false},
+    },{
+        path:'/draftList',
+        name: 'draftList',
+        component: DraftList,
         meta: {noMenu: false},
     },
     {
