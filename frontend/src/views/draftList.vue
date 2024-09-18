@@ -1,11 +1,12 @@
 <template>
   <div class="draftList">
     <h1>this is draft list</h1>
+    <el-button @click="goToWriteArticle">去写文章</el-button>
+
     <div class="content" v-for="items in DraftList" :key="items.id">
       <el-card class="box-card" shadow="hover" @click.native="goToWriteArticle(items)">
         <div slot="header" class="clearfix">
           <span>{{items.title}}</span>
-
         </div>
         <div class="content-area">
           <p>{{items.content}}</p>
@@ -15,6 +16,9 @@
           </el-row>
         </div>
       </el-card>
+    </div>
+    <div v-if="DraftList.length === 0">
+        <h1>暂时没有文章，快去创作吧!</h1>
     </div>
 
   </div>
@@ -32,7 +36,7 @@ export default {
   },
   methods: {
     goToWriteArticle(items) {
-      this.$router.push({name:"writeArticles",params:{items}});
+      this.$router.push({name:"writeArticles",query:{items:JSON.stringify(items)}});
     },
     tryHttp(){
       axios.get("/draft/getArticles").then(response => {
