@@ -5,12 +5,25 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import axios from "@/axios"
 
 export default {
   name: 'HomeView',
+  data(){
+      return {
+
+      }
+  },
   components: {},
   methods:{
+    getArticles(){
+      axios.get("/article/getArticles").then(res=>{
+        console.log(res.data.data)
+      })
+    },
+  },
+  created(){
+    this.getArticles()
   }
 }
 </script>

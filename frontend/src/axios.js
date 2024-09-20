@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from "@/router";
 // import dotenv from 'dotenv';
 
 
@@ -34,7 +35,11 @@ instance.interceptors.request.use(config => {
 // 响应拦截器
 instance.interceptors.response.use(response => {
     return response;
-},error => {
+},function(error){
+    if (error.response && error.response.status === 401) {
+        router.push('/login');
+        return new Promise(()=>{})
+    }
     return Promise.reject(error);
 })
 
