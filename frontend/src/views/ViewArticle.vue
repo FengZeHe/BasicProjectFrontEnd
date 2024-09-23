@@ -1,49 +1,73 @@
 <template>
   <div class="viewArticle">
     <h1>这里是view Article页面</h1>
-    <el-button @click="Hi">Hi</el-button>
+    <div class="content">
+      <el-card v-for="item in this.articles" class="content-card">
+        <div slot="header" class="card-header">
+          <span>{{ item.title }}</span>
+          <span>{{ item.authorName }}</span>
+        </div>
+      </el-card>
+    </div>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :total="totalCount"
+        :current-page="currentPage"
+        small
+        layout="prev, pager, next"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from '@/axios';
 
 export default {
   name: 'ViewArticle',
   methods: {
-    Hi() {
-      const token = this.getToken()
-      if (token) {
-        axios.get("http://127.0.0.1:8088/v2/sys/hi", {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(res => {
-          this.$message({
-            message: res.data,
-            type: 'success'
-          });
-        }).catch(err => {
-          console.log(err)
-          this.$message.error('错误  '+err.message);
-        })
+    getArticles(pageIndex) {
+      if (pageIndex === undefined) {
+        pageIndex = 1
       }
+      const data = {
+        "pageIndex": pageIndex,
+        "pageSize": 8
+      }
+      axios.post("/article/getAuthorArticles", data).then(res => {
+        this.articles = res.data.data.articles
+        this.currentPage = res.data.data.pageIndex
+        this.totalCount = res.data.data.totalCount
+      })
     },
-    getToken() {
-      let cookieValue = null;
-      document.cookie.split('; ').forEach((item) => {
-        let [n, v] = item.trim().split('=');
-        if (n === 'jwt') {
-          cookieValue = v;
-        }
-      });
-      return cookieValue;
+    handleCurrentChange(newPage) {
+      this.getArticles(newPage)
     }
+  },
+  data() {
+    return {
+      articles: {},
+      currentPage: 1,
+      totalCount: 0,
+    }
+  },
+  created() {
+    this.getArticles()
   }
 }
 
 </script>
 
-<style scoped>
+<style>
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-card {
+  margin-top: 1rem;
+}
 </style>

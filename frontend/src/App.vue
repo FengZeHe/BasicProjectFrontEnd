@@ -5,11 +5,13 @@
         <el-row class="">
           <el-col>
             <h5>菜单栏</h5>
-            <el-menu>
-              <el-menu-item v-for="menuItem in this.menuList" :key="menuList.id" @click="goPages(menuItem.path)">
-                <!--                <i class="el-icon-s-claim"></i>-->
-                <span slot="title">{{ menuItem.name }}</span>
-              </el-menu-item>
+            <el-menu >
+              <el-menu-item-group>
+                <el-menu-item v-for="menuItem in menuList" :key="menuItem.id" :index="menuItem.id" @click="goPages(menuItem.path)">
+                  <!--                <i class="el-icon-s-claim"></i>-->
+                  <span slot="title">{{ menuItem.name }}</span>
+                </el-menu-item>
+              </el-menu-item-group>
             </el-menu>
           </el-col>
         </el-row>
