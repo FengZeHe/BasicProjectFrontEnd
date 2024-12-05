@@ -31,7 +31,6 @@ export default {
   margin-left: 10px;
   height: 200px;
   width: 500px;
-  background-color: #2c3e50;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,12 +50,10 @@ export default {
 
 .user-info-name {
   flex: 1;
-  background-color: #e9faf2;
 }
 
 .user-info-about {
   flex: 1;
-  background-color: bisque;
 }
 
 .avatar-image{
