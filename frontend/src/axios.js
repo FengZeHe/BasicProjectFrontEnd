@@ -34,11 +34,11 @@ instance.interceptors.request.use(config => {
 
 // 响应拦截器
 instance.interceptors.response.use(response => {
-    return response;
+    return response;  //如果响应成功直接返回 啥也不干
 },function(error){
     if (error.response && error.response.status === 401) {
         router.push('/login');
-        return new Promise(()=>{})
+        return new Promise(()=>{}) // 返回一个空的 Promise 对象
     }
     return Promise.reject(error);
 })
