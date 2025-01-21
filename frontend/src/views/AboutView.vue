@@ -15,7 +15,6 @@
         <button @click="pauseUpload">暂停上传</button>
         <button @click="resumeUpload">继续上传</button>
         <button @click="cancelUpload">取消上传</button>
-
       </div>
     </div>
   </div>
@@ -50,8 +49,6 @@ export default {
       this.totalChunks = Math.ceil(this.file.size / this.chunkSize); // 计算总分片数
       this.currentChunk = 0;
       this.isPaused = false;
-
-
     },
     async uploadFile() {
       if (!this.file) {
@@ -59,7 +56,6 @@ export default {
         return;
       }
 
-      // const totalChunks = Math.ceil(this.file.size / this.chunkSize);
       while (this.currentChunk < this.totalChunks) {
         if (this.isPaused) {
           console.log("上传已暂停")

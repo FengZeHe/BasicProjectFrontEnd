@@ -1,16 +1,17 @@
 <template>
   <div class="viewArticle">
-    <h1>这里是view Article页面</h1>
+    <h1>文章列表</h1>
     <div class="content">
-      <el-card v-for="item in this.articles" class="content-card">
-        <div slot="header" class="card-header">
+      <el-card v-for="item in this.articles" class="content-card" >
+        <div slot="header" class="card-header"  @click="handleArticleCardClick(item.id)">
           <span>{{ item.title }}</span>
           <span>{{ item.authorName }}</span>
         </div>
+        <div class="read-count">阅读 {{item.read}}</div>
       </el-card>
     </div>
+<!--      @size-change="handleSizeChange"-->
     <el-pagination
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :total="totalCount"
         :current-page="currentPage"
@@ -43,6 +44,24 @@ export default {
     },
     handleCurrentChange(newPage) {
       this.getArticles(newPage)
+    },
+    handleArticleCardClick(id){
+      if (id === undefined) {
+        console.log("id is undefined")
+        return
+      }
+      console.log("Click +1",id)
+      this.$notify({
+        title: '成功',
+        message: '点击+1',
+        type: 'success'
+      });
+      const data = {
+        "id": id,
+      }
+      axios.post("/article/addReadCount", data).then(res => {
+        console.log("addReadCount", res.data.data)
+      })
     }
   },
   data() {
@@ -50,6 +69,7 @@ export default {
       articles: {},
       currentPage: 1,
       totalCount: 0,
+      readcount:100,
     }
   },
   created() {
@@ -69,5 +89,13 @@ export default {
 
 .content-card {
   margin-top: 1rem;
+  position:relative;
+}
+
+.read-count{
+  position: absolute;
+  bottom:10px;
+  right: 10px;
+  font-size: 12px;
 }
 </style>
