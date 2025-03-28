@@ -1,29 +1,101 @@
 <template>
   <div id="app">
     <el-container>
-      <el-aside v-if="!$route.meta.noMenu">
-        <el-row class="">
-          <el-col>
-            <h5>菜单栏</h5>
-            <el-menu >
-              <el-menu-item-group>
-                <el-menu-item v-for="menuItem in menuList" :key="menuItem.id" :index="menuItem.id" @click="goPages(menuItem.path)">
-                  <!--                <i class="el-icon-s-claim"></i>-->
-                  <span slot="title">{{ menuItem.name }}</span>
-                </el-menu-item>
-              </el-menu-item-group>
-            </el-menu>
-          </el-col>
-        </el-row>
-      </el-aside>
+      <el-header v-if="!$route.meta.noMenu" height="60px">
+        <div class="header-content">
+          <div class="logo">
+            <img src="./assets/logo.png" alt="Logo" class="logo-img">
+            <span class="logo-text">BasicProjectV2</span>
+          </div>
+          <div class="user-info">
+            <el-dropdown trigger="click">
+              <span class="el-dropdown-link">
+                <el-avatar size="small" :src="avatarUrl"></el-avatar>
+                <span class="username"> //todo </span>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>个人信息</el-dropdown-item>
+                <el-dropdown-item>修改密码</el-dropdown-item>
+                <el-dropdown-item divided>退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+      </el-header>
+      <el-container>
+        <el-aside v-if="!$route.meta.noMenu" width="240px">
+          <el-menu
+            :default-active="$route.path"
+            class="el-menu-vertical"
+            background-color="#304156"
+            text-color="#bfcbd9"
+            active-text-color="#409EFF">
+            <el-menu-item v-for="menuItem in menuList" :key="menuItem.id" :index="menuItem.path" @click="goPages(menuItem.path)">
+              <i :class="menuItem.icon || 'el-icon-menu'"></i>
+              <span slot="title">{{ menuItem.name }}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
         <el-main id="main">
-          <!--  用于右侧显示内容区          -->
-          <router-view></router-view>
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
         </el-main>
+      </el-container>
     </el-container>
-
   </div>
 </template>
+
+<style scoped>
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 32px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.el-dropdown-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.username {
+  margin: 0 8px;
+  color: var(--text-primary);
+}
+
+.el-menu-vertical {
+  height: calc(100vh - 60px);
+}
+
+.el-menu-item i {
+  margin-right: 10px;
+}
+</style>
 
 
 <script>
@@ -33,7 +105,8 @@ export default {
   name: 'App',
   data() {
     return {
-      menuList: []
+      menuList: [],
+      avatarUrl: require("./assets/avatar.png"),
     }
   },
   methods: {
@@ -97,8 +170,6 @@ html, body,#app ,.el-container{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  //color: #2c3e50;
-  //background-color: #2c3e50;
 }
 
 .el-main {

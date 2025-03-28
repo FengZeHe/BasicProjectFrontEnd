@@ -59,9 +59,9 @@ export default {
       const data = {
         "id": id,
       }
-      axios.post("/article/addReadCount", data).then(res => {
-        console.log("addReadCount", res.data.data)
-      })
+      // axios.post("/article/addReadCount", data).then(res => {
+      //   console.log("addReadCount", res.data.data)
+      // })
     }
   },
   data() {
