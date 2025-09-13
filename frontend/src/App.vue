@@ -191,9 +191,19 @@ body,
   text-align: center;
 }
 
+
+
 .el-main {
   text-align: center;
   height: 100%;
+}
+
+.el-main::-webkit-scrollbar{
+  display: none;
+}
+
+html::-webkit-scrollbar{
+  display: none;
 }
 
 
