@@ -1,15 +1,26 @@
 <template>
   <div class="home">
-    <h1 class="home-title">论坛首页</h1>
     <div class="content">
-      <el-card v-for="item in this.articles" class="homeview-content-card">
+      <el-card v-for="item in articles" class="homeview-content-card" :key="item.id"
+        @click.native="handleCardClick(item.id)">
         <div class="homeview-content-card-author clearfix">
           <img class="homeview-card-avatar" src="@/assets/bruce.jpg" alt="">
           <div class="homeview-card-authorName">{{ item.authorName }}</div>
         </div>
         <div class="homeview-content-card-title">{{ item.title }}</div>
         <div class="homeview-content-card-content">{{ item.content }}</div>
-        <!-- {{ item }} -->
+        <div class="homeview-content-card-like">
+
+          <div class="homeview-content-card-like-number">1k+</div>
+          <img src="@/assets/comment.png" alt="">
+
+          <div class="homeview-content-card-like-number">10w+</div>
+          <img src="@/assets/like.png" alt="">
+
+          <div class="homeview-content-card-like-number">10w+</div>
+          <img src="@/assets/eyes.png" alt="">
+
+        </div>
       </el-card>
     </div>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total="totalCount"
@@ -20,18 +31,26 @@
 
 <script>
 import axios from "@/axios"
+import Article from "@/views/Articles.vue"
 
 export default {
   name: 'HomeView',
   data() {
     return {
-      articles: {},
+      articles: [],
       currentPage: 1,
-      totalCount: 0,
+      totalCount: 0
     }
   },
-  components: {},
+  components: { Article },
   methods: {
+    handleCardClick(item) {
+      const articleStr = JSON.stringify(item)
+      this.$router.push({
+        name: 'article',
+        query: { article: articleStr }
+      })
+    },
     getArticles(pageIndex) {
       if (pageIndex === undefined) {
         pageIndex = 1
@@ -65,6 +84,10 @@ export default {
   display: none;
 }
 
+.content{
+  padding-bottom: 80px;
+}
+
 
 .home-title {
   font-size: 20px;
@@ -76,8 +99,6 @@ export default {
   width: 30px;
   height: 30px;
 }
-
-
 
 .homeview-content-card-author {
   height: 65px;
@@ -141,5 +162,25 @@ img {
 
 .homeview-content-card {
   margin-top: 1rem;
+}
+
+.homeview-content-card-like {
+  height: 20px;
+  text-align: right;
+  padding-top: 8px;
+}
+
+.homeview-content-card-like img {
+  float: right;
+  width: 15px;
+  height: 15px;
+  padding-left: 12px;
+  padding-right: 2px;
+}
+
+.homeview-content-card-like-number {
+  float: right;
+  font-size: 12px;
+  color: #999;
 }
 </style>

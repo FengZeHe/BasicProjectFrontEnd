@@ -10,6 +10,7 @@ import UserManagement from '../views/userManagement.vue'
 import RoleManagement from '../views/roleManagement.vue'
 import MenuManagement from '../views/menuManagement.vue'
 import DraftList from '../views/draftList.vue'
+import Article from '../views/Articles.vue'
 
 Vue.use(VueRouter)
 
@@ -18,54 +19,60 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     },
     {
         path: '/about',
         name: 'about',
         component: About,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     }, {
         path: '/viewArticles',
         name: 'viewArticles',
         component: ViewArticles,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     }, {
         path: '/writeArticles',
         name: 'writeArticles',
         component: WriteArticles,
-        meta: {noMenu: false},
-    },{
-        path:'/draftList',
+        meta: { noMenu: false },
+    }, {
+        path: '/draftList',
         name: 'draftList',
         component: DraftList,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     },
     {
         path: '/login',
         name: 'login',
         component: Login,
-        meta: {noMenu: true},
+        meta: { noMenu: true },
     }, {
         path: '/signin',
         name: 'signin',
         component: Register,
-        meta: {noMenu: true}
+        meta: { noMenu: true }
     }, {
         path: '/userManagement',
         name: 'userManagement',
         component: UserManagement,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     }, {
         path: '/roleManagement',
         name: 'roleManagement',
         component: RoleManagement,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
     }, {
         path: '/menuManagement',
         name: 'menuManagement',
         component: MenuManagement,
-        meta: {noMenu: false},
+        meta: { noMenu: false },
+    },
+    {
+        path: '/article',
+        name: 'article',
+        component: Article,
+        meta: { noMenu: false },
     }
 ]
 
