@@ -12,7 +12,20 @@
             <span>10w+</span>
         </div>
         <el-divider></el-divider>
-        <div class="article-comment">评论区</div>
+        <div class="article-comment">
+            <div class="article-comment-block">
+                <!-- 评论块 -->
+                <div class="article-comment-block-root">
+                    <!-- 头像+名称 -->
+                    <img class="article-comment-block-root-img" src="@/assets/cat.jpg" alt="">
+                    <div class="article-comment-block-root-name">Name</div>
+                </div>
+                <div class="article-comment-block-comment">
+                    我觉得很赞
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
@@ -46,7 +59,7 @@ export default {
             axios.post("/article/getArticleByID", req).then(res => {
                 this.article = res.data.data
                 // this.article.content = this.article.content.replace(/\\n/g, '\n');
-                this.paragraphs = this.article.content.split('\n').filter(p => p.trim() !== '');
+                this.paragraphs = this.article.content.split('\\n').filter(p => p.trim() !== '');
             })
         }
     },
@@ -121,7 +134,7 @@ export default {
     background-color: #FBE9D9;
     position: relative;
     display: flex;
-    align-items: center; 
+    align-items: center;
     float: right;
     width: 75px;
     height: 30px;
@@ -129,7 +142,7 @@ export default {
     margin-right: 30px;
     top: -15px;
     cursor: pointer;
-    border-radius: 5px ;
+    border-radius: 5px;
 }
 
 .articles-like img {
@@ -139,7 +152,45 @@ export default {
     margin-right: 4px;
 }
 
-.articles-like span{
+.articles-like span {
     color: #999;
+}
+
+.article-comment {
+    width: 100%;
+    /* height: 100%; */
+    border: 1px solid red;
+}
+
+.article-comment-block{
+    position: relative;
+}
+
+.article-comment-block-root{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    float: left;
+    position: relative;
+    left: 20px;
+    top: 20px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid red;   
+}
+
+.article-comment-block-root-img{
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.article-comment-block-comment{
+    position: relative;
+    text-align: left;    
+    width: 100%;
+    /* left: 170px; */
+    border: 1px solid black;
 }
 </style>
