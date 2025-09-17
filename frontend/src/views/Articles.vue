@@ -18,13 +18,44 @@
                 <div class="article-comment-block-root">
                     <!-- 头像+名称 -->
                     <img class="article-comment-block-root-img" src="@/assets/cat.jpg" alt="">
-                    <div class="article-comment-block-root-name">Name</div>
+                    <div class="article-comment-block-root-name">Cat</div>
                 </div>
                 <div class="article-comment-block-comment">
-                    我觉得很赞
-                </div>
-            </div>
+                    <p>我觉得很赞</p>
+                    <p>我觉得很赞</p>
+                    <p>我觉得很赞</p>
+                    <p>我觉得很赞</p>
+                    <div class="article-comment-block-comment-reply">回复</div>
+                    <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
+                    <div class="article-comment-block-comment-to-comment">
+                        <div class="artilce-comment-to-comment-block">
+                            <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
+                            <div class="article-comment-block-comment-name">Dog:我也觉得很赞</div>
+                            <div class="article-comment-block-comment-reply">回复</div>
+                            <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
+                        </div>
 
+
+
+                        <div class="artilce-comment-to-comment-block">
+                            <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
+                            <div class="article-comment-block-comment-name">Dog 回复 Cat:我也觉得很赞</div>
+                            <div class="article-comment-block-comment-reply">回复</div>
+                            <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="article-comment-reply">
+                <span>你的回复</span>
+                <el-input type="textarea" placeholder="请输入内容" v-model="textarea" maxlength="100" show-word-limit>
+                </el-input>
+            </div>
         </div>
 
     </div>
@@ -39,7 +70,8 @@ export default {
     data() {
         return {
             article: {},
-            paragraphs: []
+            paragraphs: [],
+            textarea: ''
         }
     },
     methods: {
@@ -112,6 +144,7 @@ export default {
     height: 50px;
     position: relative;
     left: 30px;
+    border: 1px solid #ccc;
 }
 
 .articles-content {
@@ -158,39 +191,105 @@ export default {
 
 .article-comment {
     width: 100%;
-    /* height: 100%; */
-    border: 1px solid red;
 }
 
-.article-comment-block{
+.article-comment-block {
     position: relative;
+    display: flex;
+
 }
 
-.article-comment-block-root{
+.article-comment-block-root {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     float: left;
     position: relative;
-    left: 20px;
-    top: 20px;
-    width: 150px;
-    height: 150px;
-    border: 1px solid red;   
+    top: 15px;
+    height: 80px;
+    flex: 1;
+    margin-right: 30px;
+    border-right: 1px solid #ccc;
 }
 
-.article-comment-block-root-img{
+.article-comment-block-root-img {
     position: relative;
     width: 50px;
     height: 50px;
+    display: flex;
+    border: 1px solid #ccc;
+
 }
 
-.article-comment-block-comment{
-    position: relative;
-    text-align: left;    
-    width: 100%;
-    /* left: 170px; */
-    border: 1px solid black;
+.article-comment-block-root-name {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #37a;
 }
+
+.article-comment-block-comment {
+    flex: 6;
+    text-align: left;
+}
+
+.article-comment-block-comment-time {
+    float: right;
+    color: #999;
+    font-size: 13px;
+}
+
+.article-comment-block-comment-to-comment {
+    position: relative;
+    top: 30px;
+    width: 100%;
+    background-color:#eaecee ;
+    margin-bottom: 120px;
+    right: 40px;
+}
+
+.artilce-comment-to-comment-block{
+    position: relative;
+    /* border: 1px solid red; */
+    margin-top: 3px;
+}
+
+
+.article-comment-block-comment-img{
+    margin: 5px 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.article-comment-block-comment-name{
+    margin: 5px 0;
+}
+
+.article-comment-block-comment-reply {
+    float: right;
+    font-size: 13px;
+    margin-left: 20px;
+    margin-right: 40px;
+    margin-top: -3px;
+}
+
+.article-comment-block-comment-reply:hover {
+    cursor: pointer;
+    background-color: #999;
+}
+
+.article-comment-reply {
+    margin-top: 30px;
+}
+
+.article-comment-block-comment-to-comment {
+    margin-top: 30px;
+}
+
+.artilce-comment-to-comment-block{
+    height: 50px;
+    margin-top: 5px;
+}
+
+
 </style>
