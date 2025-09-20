@@ -104,7 +104,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #1989fa 100%);
+
 }
 
 .login-card {
