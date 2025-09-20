@@ -46,7 +46,7 @@ export default {
             axios.post("/article/getArticleByID", req).then(res => {
                 this.article = res.data.data
                 // this.article.content = this.article.content.replace(/\\n/g, '\n');
-                this.paragraphs = this.article.content.split('\n').filter(p => p.trim() !== '');
+                this.paragraphs = this.article.content.split('\\n').filter(p => p.trim() !== '');
             })
         }
     },
