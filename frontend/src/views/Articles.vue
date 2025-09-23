@@ -13,7 +13,7 @@
         </div>
         <el-divider></el-divider>
         <div class="article-comment">
-            <div class="article-comment-block">
+            <div class="article-comment-block" v-for="item in comment.list" :key="item.parent.id">
                 <!-- 评论块 -->
                 <div class="article-comment-block-root">
                     <!-- 头像+名称 -->
@@ -21,35 +21,21 @@
                     <div class="article-comment-block-root-name">Cat</div>
                 </div>
                 <div class="article-comment-block-comment">
-                    <p>我觉得很赞</p>
-                    <p>我觉得很赞</p>
-                    <p>我觉得很赞</p>
-                    <p>我觉得很赞</p>
+                    <p>{{ item.parent.content}}</p>
                     <div class="article-comment-block-comment-reply">回复</div>
                     <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
-                    <div class="article-comment-block-comment-to-comment">
+
+
+                    <div class="article-comment-block-comment-to-comment" v-for="child in item.child" :key="child.id">
                         <div class="artilce-comment-to-comment-block">
                             <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
-                            <div class="article-comment-block-comment-name">Dog:我也觉得很赞</div>
+                            <div class="article-comment-block-comment-name">{{ child.content }}</div>
                             <div class="article-comment-block-comment-reply">回复</div>
-                            <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
+                            <div class="article-comment-block-comment-time">{{ child.createdAt }}</div>
                         </div>
-
-
-
-                        <div class="artilce-comment-to-comment-block">
-                            <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
-                            <div class="article-comment-block-comment-name">Dog 回复 Cat:我也觉得很赞</div>
-                            <div class="article-comment-block-comment-reply">回复</div>
-                            <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
-                        </div>
-
 
                     </div>
-
                 </div>
-
-
             </div>
             <div class="article-comment-reply">
                 <span>你的回复</span>
@@ -71,7 +57,11 @@ export default {
         return {
             article: {},
             paragraphs: [],
-            textarea: ''
+            textarea: '',
+            comment: {
+                parentNodes: [],
+                list: []
+            },
         }
     },
     methods: {
@@ -90,9 +80,42 @@ export default {
             }
             axios.post("/article/getArticleByID", req).then(res => {
                 this.article = res.data.data
-                // this.article.content = this.article.content.replace(/\\n/g, '\n');
                 this.paragraphs = this.article.content.split('\\n').filter(p => p.trim() !== '');
             })
+        },
+        getArticleComment() {
+            const params = {
+                aid: this.article.id
+            }
+            axios.get("/comment/", { params }).then(response => {
+                this.comment.data = response.data.data
+                var pn = []
+                for (let i = 0; i < this.comment.data.length; i++) {
+                    const temp = this.comment.data[i]
+                    if (temp.id === temp.rid.Int64) {  // 以顶层评论作为节点
+                        pn.push(temp)
+                    }
+                }
+                this.comment.parentNodes = pn
+                this.SortOutComments()
+            }).catch(error => {
+                console.log(error)
+            })
+
+        },
+        SortOutComments() {
+            for (let i = 0; i < this.comment.parentNodes.length; i++) {
+                var node = {}
+                var child = []
+                for (let j = 0; j < this.comment.data.length; j++) {
+                    if (this.comment.parentNodes[i].id === this.comment.data[j].pid.Int64) {
+                        node.parent = this.comment.parentNodes[i]
+                        child.push(this.comment.data[j])
+                        node['child'] = [...child]
+                    }
+                }
+                this.comment.list.push(node)
+            }
         }
     },
 
@@ -100,6 +123,7 @@ export default {
     created() {
         this.getArticleFromHomeView()
         this.getArticleDetail()
+        this.getArticleComment()
     }
 }
 
@@ -240,28 +264,29 @@ export default {
 }
 
 .article-comment-block-comment-to-comment {
+    margin-left: 20px;
     position: relative;
     top: 30px;
     width: 100%;
-    background-color:#eaecee ;
+    background-color: #eaecee;
     margin-bottom: 120px;
     right: 40px;
 }
 
-.artilce-comment-to-comment-block{
+.artilce-comment-to-comment-block {
     position: relative;
     /* border: 1px solid red; */
     margin-top: 3px;
 }
 
 
-.article-comment-block-comment-img{
+.article-comment-block-comment-img {
     margin: 5px 10px;
     width: 25px;
     height: 25px;
 }
 
-.article-comment-block-comment-name{
+.article-comment-block-comment-name {
     margin: 5px 0;
 }
 
@@ -286,10 +311,8 @@ export default {
     margin-top: 30px;
 }
 
-.artilce-comment-to-comment-block{
+.artilce-comment-to-comment-block {
     height: 50px;
     margin-top: 5px;
 }
-
-
 </style>
