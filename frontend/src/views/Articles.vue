@@ -21,7 +21,7 @@
                     <div class="article-comment-block-root-name">Cat</div>
                 </div>
                 <div class="article-comment-block-comment">
-                    <p>{{ item.parent.content}}</p>
+                    <p>{{ item.parent.content }}</p>
                     <div class="article-comment-block-comment-reply">回复</div>
                     <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
 
@@ -38,9 +38,10 @@
                 </div>
             </div>
             <div class="article-comment-reply">
-                <span>你的回复</span>
+                <span>你的评论</span>
                 <el-input type="textarea" placeholder="请输入内容" v-model="textarea" maxlength="100" show-word-limit>
                 </el-input>
+                <el-button class="article-comment-reply-btn">提交</el-button>
             </div>
         </div>
 
@@ -303,9 +304,7 @@ export default {
     background-color: #999;
 }
 
-.article-comment-reply {
-    margin-top: 30px;
-}
+
 
 .article-comment-block-comment-to-comment {
     margin-top: 30px;
@@ -314,5 +313,17 @@ export default {
 .artilce-comment-to-comment-block {
     height: 50px;
     margin-top: 5px;
+}
+
+.article-comment-reply {
+    margin-top: 30px;
+    position: relative;
+    height:200px;
+}
+
+.article-comment-reply-btn {
+    position: absolute;
+    top: 85px;
+    right: 0px;
 }
 </style>
