@@ -7,10 +7,20 @@
         <div class="articles-content">
             <p v-for="(paragraph, index) in paragraphs" :key="index">{{ paragraph }}</p>
         </div>
-        <div class="articles-like">
-            <img src="@/assets/like-orange.png" alt="">
-            <span>10w+</span>
+
+        <div class="articles-content-btn">
+            <img :src="selectImg('like',1)" alt="">
+            <span>{{ interactiveStatus.collectCount }}</span>
         </div>
+
+        <div class="articles-content-btn">
+            <img src="@/assets/like-orange.png" alt="">
+            <span> {{ interactiveStatus.likeCount }}</span>
+        </div>
+
+        {{ selectImg() }}
+
+
         <el-divider></el-divider>
         <div class="article-comment">
             <div class="article-comment-block" v-for="item in comment.list" :key="item.parent.id">
@@ -63,11 +73,15 @@ export default {
                 parentNodes: [],
                 list: []
             },
+            interactiveStatus: {},
+            aid: ""
         }
     },
     methods: {
         getArticleFromHomeView() {
             const id = this.$route.query.article;
+            this.aid = id
+            this.interactiveStatus = this.$route.query.interactiveStatus;
             if (id) {
                 this.article.id = JSON.parse(id)
             } else {
@@ -119,12 +133,28 @@ export default {
             }
         }
     },
-
+    computed: {
+        selectImg() {
+            return (iconType, selected) => {
+                if (iconType == "like" && selected == "1"){
+                    return require("@/assets/like-orange-selected.png");
+                }else if (iconType == "like" && selected == "0"){
+                    return require("@/assets/like-orange.png");
+                }else if (iconType == "collect" && selected == "1"){
+                    return require("@/assets/collect-selected.png");
+                }else if (iconType == "collect" && selected == "0"){
+                    return require("@/assets/collect.png");
+                }
+                // return require("@/assets/collect-selected.png");
+            }
+        }
+    },
 
     created() {
         this.getArticleFromHomeView()
         this.getArticleDetail()
         this.getArticleComment()
+        console.log(this.interactiveStatus)
     }
 }
 
@@ -188,7 +218,7 @@ export default {
     font-size: 15px;
 }
 
-.articles-like {
+.articles-content-btn {
     background-color: #FBE9D9;
     position: relative;
     display: flex;
@@ -203,15 +233,17 @@ export default {
     border-radius: 5px;
 }
 
-.articles-like img {
+.articles-content-btn img {
     width: 20px;
     height: 20px;
     margin-left: 10px;
     margin-right: 4px;
 }
 
-.articles-like span {
+.articles-content-btn span {
+    /* border: 1px solid red ; */
     color: #999;
+    /* font-size: 20px; */
 }
 
 .article-comment {
@@ -318,7 +350,7 @@ export default {
 .article-comment-reply {
     margin-top: 30px;
     position: relative;
-    height:200px;
+    height: 200px;
 }
 
 .article-comment-reply-btn {

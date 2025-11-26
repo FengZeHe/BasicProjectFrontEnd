@@ -10,14 +10,16 @@
         <div class="homeview-content-card-title">{{ item.title }}</div>
         <div class="homeview-content-card-content">{{ item.content }}</div>
         <div class="homeview-content-card-like">
-
+          <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).collectCount }}</div>
+          <img src="@/assets/collect.png" alt="">
+          <!-- 
           <div class="homeview-content-card-like-number">1k+</div>
-          <img src="@/assets/comment.png" alt="">
+          <img src="@/assets/comment.png" alt=""> -->
 
-          <div class="homeview-content-card-like-number">10w+</div>
+          <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).likeCount }}</div>
           <img src="@/assets/like.png" alt="">
 
-          <div class="homeview-content-card-like-number">10w+</div>
+          <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).readCount }}</div>
           <img src="@/assets/eyes.png" alt="">
 
         </div>
@@ -39,19 +41,35 @@ export default {
     return {
       articles: [],
       currentPage: 1,
-      totalCount: 0
+      totalCount: 0,
+      interactiveArt: {}
     }
   },
   components: { Article },
   methods: {
     handleCardClick(item) {
+      this.addReadCount(item)
       const articleStr = JSON.stringify(item)
       this.$router.push({
         name: 'article',
-        query: { article: articleStr }
+        query: { 
+          article: articleStr,
+          interactiveStatus: this.getInteractiveArt(item)
+         }
       })
     },
-    getArticles(pageIndex) {
+    async addReadCount(aid) {
+      await axios.post("/interactive/addRead", {
+        "Aid": aid
+      }).then((res)=>{
+
+      }).catch((err)=>{
+        console.log("add read count error",err)
+      })
+    },
+
+
+    async getArticles(pageIndex) {
       if (pageIndex === undefined) {
         pageIndex = 1
       }
@@ -59,18 +77,44 @@ export default {
         "pageIndex": pageIndex,
         "pageSize": 8
       }
-      axios.post("/article/getArticles", data).then(res => {
+      await axios.post("/article/getArticles", data).then(res => {
         this.articles = res.data.data.articles
         this.currentPage = res.data.data.pageIndex
         this.totalCount = res.data.data.totalCount
+
+        // 遍历articles
+        for (var i = 0; i < this.articles.length; i++) {
+          this.getArticleStatus(this.articles[i].id)
+        }
       })
     },
+    async getArticleStatus(aid) {
+      await axios.get("/interactive/status", {
+        params: {
+          "aid": aid
+        }
+      }).then((res) => {
+        const temp = res.data.data
+        this.$set(this.interactiveArt, aid, temp)
+      }).catch((err) => {
+        console.log("err", err)
+      })
+    },
+
+
     handleSizeChange(val) {
       console.log("handleSizeChange", val)
-
     },
     handleCurrentChange(newPage) {
       this.getArticles(newPage)
+    }
+  },
+  computed: {
+    getInteractiveArt() {
+      return (aid) => {
+        const item = this.interactiveArt[aid]
+        return item ? item : 0
+      }
     }
   },
   created() {
@@ -84,7 +128,7 @@ export default {
   display: none;
 }
 
-.content{
+.content {
   padding-bottom: 80px;
 }
 
@@ -165,9 +209,11 @@ img {
 }
 
 .homeview-content-card-like {
+  /* border: 1px solid red; */
   height: 20px;
   text-align: right;
   padding-top: 8px;
+  margin-right: 20px;
 }
 
 .homeview-content-card-like img {
