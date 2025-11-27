@@ -49,14 +49,16 @@ export default {
   methods: {
     handleCardClick(item) {
       this.addReadCount(item)
-      const articleStr = JSON.stringify(item)
       this.$router.push({
         name: 'article',
         query: { 
-          article: articleStr,
-          interactiveStatus: this.getInteractiveArt(item)
+          article: JSON.stringify(item),
+          // interactiveStatus:JSON.stringify(this.getInteractiveArt(item))
          }
+      }).catch(()=>{
+
       })
+
     },
     async addReadCount(aid) {
       await axios.post("/interactive/addRead", {
