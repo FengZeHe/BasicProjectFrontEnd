@@ -53,7 +53,6 @@ export default {
         name: 'article',
         query: { 
           article: JSON.stringify(item),
-          // interactiveStatus:JSON.stringify(this.getInteractiveArt(item))
          }
       }).catch(()=>{
 

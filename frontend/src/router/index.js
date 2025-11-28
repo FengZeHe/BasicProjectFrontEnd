@@ -11,6 +11,7 @@ import RoleManagement from '../views/roleManagement.vue'
 import MenuManagement from '../views/menuManagement.vue'
 import DraftList from '../views/draftList.vue'
 import Article from '../views/Articles.vue'
+import Collection from '@/views/CollectionView.vue'
 
 Vue.use(VueRouter)
 
@@ -73,6 +74,11 @@ const routes = [
         name: 'article',
         component: Article,
         meta: { noMenu: false },
+    }, {
+        path: '/collection',
+        name: 'collection',
+        component: Collection,
+        mate: { noMenu: false },
     }
 ]
 
