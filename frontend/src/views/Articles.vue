@@ -23,7 +23,7 @@
                 <div class="article-comment-block-comment">
                     <p>{{ item.parent.content}}</p>
                     <div class="article-comment-block-comment-reply">回复</div>
-                    <div class="article-comment-block-comment-time">2025-09-12 15:29:55</div>
+                    <div class="article-comment-block-comment-time">{{ item.parent.createdAt }}</div>
 
 
                     <div class="article-comment-block-comment-to-comment" v-for="child in item.child" :key="child.id">
