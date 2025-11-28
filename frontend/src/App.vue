@@ -119,6 +119,13 @@ export default {
       avatarUrl: require("./assets/avatar.png"),
     }
   },
+  watch:{
+    $route(to,from){
+      if(!to.meta.noMenu){
+        this.getMenu();
+      }
+    }
+  },
   methods: {
     goAbout() {
       this.$router.push("/about").catch(() => {
@@ -157,7 +164,7 @@ export default {
       return cookieValue;
     }
   },
-  mounted() {
+  created() {
     this.getMenu()
   }
 }
