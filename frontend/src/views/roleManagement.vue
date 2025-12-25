@@ -99,14 +99,8 @@ export default {
     },
     // 获取用户的token
     getToken() {
-      let cookieValue = null;
-      document.cookie.split('; ').forEach((item) => {
-        let [n, v] = item.trim().split('=');
-        if (n === 'jwt') {
-          cookieValue = v;
-        }
-      });
-      return cookieValue;
+      const token = localStorage.getItem("userToken")
+      return token;
     },
     getMenus() {
       const token = this.getToken()

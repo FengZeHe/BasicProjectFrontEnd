@@ -1,6 +1,5 @@
 import axios from 'axios';
 import router from "@/router";
-// import dotenv from 'dotenv';
 
 
 const instance = axios.create({
@@ -10,14 +9,8 @@ const instance = axios.create({
 
 // 获取token
 function getToken(){
-    let cookieValue = null;
-    document.cookie.split(';').forEach(item => {
-        let [n,v] = item.trim().split('=');
-        if (n === "jwt"){
-            cookieValue = v
-        }
-    });
-    return cookieValue
+    const token = localStorage.getItem('userToken');
+    return token;
 }
 
 
@@ -37,7 +30,8 @@ instance.interceptors.response.use(response => {
     return response;  //如果响应成功直接返回 啥也不干
 },function(error){
     if (error.response && error.response.status === 401) {
-        router.push('/login');
+        // router.push('/login');
+        console.log(error.response)
         return new Promise(()=>{}) // 返回一个空的 Promise 对象
     }
     return Promise.reject(error);
