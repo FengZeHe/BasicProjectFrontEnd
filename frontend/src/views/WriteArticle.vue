@@ -5,11 +5,7 @@
     <h3>标题</h3>
     <el-input v-model="Article.title" placeholder="请输入标题"></el-input>
     <h3>文章正文 </h3>
-    <el-input
-        type="textarea"
-        :autosize="{ minRows: 20, maxRows: 30}"
-        placeholder="请输入内容"
-        v-model="Article.content">
+    <el-input type="textarea" :autosize="{ minRows: 20, maxRows: 30 }" placeholder="请输入内容" v-model="Article.content">
     </el-input>
 
     <el-row>
@@ -116,12 +112,19 @@ export default {
       this.getDraft()
     }
   },
+  beforeRouteLeave(to, from, next) {
+    const comfirmLeave = window.confirm("文章内容未保存,确定要离开吗?")
+    if (comfirmLeave) {
+      next();
+    } else {
+      next(false);
+    }
+  }
+
 
 }
 
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
