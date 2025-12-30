@@ -12,9 +12,6 @@
         <div class="homeview-content-card-like">
           <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).collectCount }}</div>
           <img src="@/assets/collect.png" alt="">
-          <!-- 
-          <div class="homeview-content-card-like-number">1k+</div>
-          <img src="@/assets/comment.png" alt=""> -->
 
           <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).likeCount }}</div>
           <img src="@/assets/like.png" alt="">

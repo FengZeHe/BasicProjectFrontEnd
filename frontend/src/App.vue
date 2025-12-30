@@ -1,30 +1,11 @@
 <template>
   <div id="app">
     <el-container>
+      <!-- 顶部导航栏 -->
       <el-header v-if="!$route.meta.noMenu">
-        <div class="header-content clearfix">
-          <router-link to="/">
-            <span class="logo-text">论坛首页</span>
-          </router-link>
-          <div class="user-info">
-            <el-dropdown trigger="click">
-              <span class="el-dropdown-link">
-                <el-avatar size="small" :src="avatarUrl"></el-avatar>
-                <span class="username">
-                  <h3>Admin</h3>
-                </span>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人信息</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
-                <el-dropdown-item divided>退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
+          <topNav/>
       </el-header>
-      <el-container>
+      <!-- <el-container>
         <el-aside v-if="!$route.meta.noMenu" width="200px" class="home-aside">
           <el-menu :default-active="$route.path" class="el-menu-vertical" background-color="#304156"
             text-color="#bfcbd9" active-text-color="#409EFF">
@@ -39,7 +20,7 @@
             <router-view></router-view>
           </transition>
         </el-main>
-      </el-container>
+      </el-container> -->
     </el-container>
   </div>
 </template>
@@ -110,9 +91,13 @@
 <script>
 import axios from 'axios';
 import router from './router';
+import topNav from '@/components/topNav'
 
 export default {
   name: 'App',
+  components:{
+    topNav
+  },
   data() {
     return {
       menuList: [],
@@ -155,13 +140,6 @@ export default {
     // 获取用户的token
     getToken() {
       const token = localStorage.getItem('userToken')
-      // let token = null;
-      // document.cookie.split('; ').forEach((item) => {
-      //   let [n, v] = item.trim().split('=');
-      //   if (n === 'jwt') {
-      //     token = v;
-      //   }
-      // });
       return token;
     }
   },
@@ -198,8 +176,6 @@ body,
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
-
-
 
 .el-main {
   text-align: center;
