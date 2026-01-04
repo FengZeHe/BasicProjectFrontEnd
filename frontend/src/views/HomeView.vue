@@ -48,10 +48,10 @@ export default {
       this.addReadCount(item)
       this.$router.push({
         name: 'article',
-        query: { 
+        query: {
           article: JSON.stringify(item),
-         }
-      }).catch(()=>{
+        }
+      }).catch(() => {
 
       })
 
@@ -59,10 +59,10 @@ export default {
     async addReadCount(aid) {
       await axios.post("/interactive/addRead", {
         "Aid": aid
-      }).then((res)=>{
+      }).then((res) => {
 
-      }).catch((err)=>{
-        console.log("add read count error",err)
+      }).catch((err) => {
+        console.log("add read count error", err)
       })
     },
 
@@ -121,7 +121,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 .content::-webkit-scrollbar {
   display: none;
 }
@@ -200,14 +200,11 @@ img {
   clear: both;
 }
 
-
-
 .homeview-content-card {
   margin-top: 1rem;
 }
 
 .homeview-content-card-like {
-  /* border: 1px solid red; */
   height: 20px;
   text-align: right;
   padding-top: 8px;
@@ -227,4 +224,8 @@ img {
   font-size: 12px;
   color: #999;
 }
+
+
+
+
 </style>

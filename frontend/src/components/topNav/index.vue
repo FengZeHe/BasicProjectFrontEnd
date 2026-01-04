@@ -9,9 +9,8 @@
 
         <div class="headercontent-middle"></div>
 
-        <!-- :src="avatarUrl" -->
         <div class="hader-content-user-info">
-            <el-avatar size="small"></el-avatar>
+            <el-avatar size="small" :src="avatarUrl" class="hader-content-user-info-avatar"></el-avatar>
             <el-dropdown split-button>
                 <span class="el-dropdown-link">
                     <span>{{ userName }} </span>
@@ -31,7 +30,8 @@
 export default {
     data() {
         return {
-            userName: "Admin"
+            userName: "Admin",
+            avatarUrl: require("@/assets/avatar.png")
         }
     }
 }
@@ -45,8 +45,25 @@ body {
     height: 100%;
 }
 
+.header-content {
+  height: 60px;
+}
+
 html::-webkit-scrollbar {
     display: none;
+}
+
+.logo-text {
+    position: relative;
+    float: left;
+    left: 30px;
+    width: 100px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 
@@ -58,7 +75,7 @@ html::-webkit-scrollbar {
     margin: 0;
 
     .header-content-name {
-        width: 20%;
+        width: 100px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -72,13 +89,16 @@ html::-webkit-scrollbar {
     }
 
     .hader-content-user-info {
-        width: 30%;
+        width: 15%;
         height: 100%;
         display: flex;
         justify-content: center;
         flex-direction: row;
         align-items: center;
-        
+
+        .hader-content-user-info-avatar{
+            margin-right: 10px;
+        }
     }
 
 
