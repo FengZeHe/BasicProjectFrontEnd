@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="content">
+      <p>当前{{ $store.state }}</p> <button @click="add">点击</button>
       <el-card v-for="item in articles" class="homeview-content-card" :key="item.id"
         @click.native="handleCardClick(item.id)">
         <div class="homeview-content-card-author clearfix">
@@ -12,9 +13,6 @@
         <div class="homeview-content-card-like">
           <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).collectCount }}</div>
           <img src="@/assets/collect.png" alt="">
-          <!-- 
-          <div class="homeview-content-card-like-number">1k+</div>
-          <img src="@/assets/comment.png" alt=""> -->
 
           <div class="homeview-content-card-like-number">{{ getInteractiveArt(item.id).likeCount }}</div>
           <img src="@/assets/like.png" alt="">
@@ -47,14 +45,19 @@ export default {
   },
   components: { Article },
   methods: {
+    add() {
+      this.$store.commit('increment', { num: 1 })
+    },
+
+
     handleCardClick(item) {
       this.addReadCount(item)
       this.$router.push({
         name: 'article',
-        query: { 
+        query: {
           article: JSON.stringify(item),
-         }
-      }).catch(()=>{
+        }
+      }).catch(() => {
 
       })
 
@@ -62,10 +65,10 @@ export default {
     async addReadCount(aid) {
       await axios.post("/interactive/addRead", {
         "Aid": aid
-      }).then((res)=>{
+      }).then((res) => {
 
-      }).catch((err)=>{
-        console.log("add read count error",err)
+      }).catch((err) => {
+        console.log("add read count error", err)
       })
     },
 
@@ -124,7 +127,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 .content::-webkit-scrollbar {
   display: none;
 }
@@ -203,14 +206,11 @@ img {
   clear: both;
 }
 
-
-
 .homeview-content-card {
   margin-top: 1rem;
 }
 
 .homeview-content-card-like {
-  /* border: 1px solid red; */
   height: 20px;
   text-align: right;
   padding-top: 8px;

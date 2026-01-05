@@ -1,7 +1,7 @@
 <template>
     <div class="articles">
         <h1 class="articles-title">{{ article.title }}</h1>
-        <img class="articles-icon" src="@/assets/bruce.jpg">
+        <img class="articles-icon clearfix" src="@/assets/bruce.jpg">
         <div class="articles-author">{{ article.authorName }}</div>
         <div class="articles-time">{{ article.created_at }}</div>
         <div class="articles-content">
@@ -214,7 +214,6 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
-    position: relative;
 }
 
 .articles-title {
@@ -249,12 +248,18 @@ export default {
     position: relative;
     left: 30px;
     border: 1px solid #ccc;
+    float: left;
+}
+
+.clearfix::after{
+    content: "";
+    display:  block;
+    clear: both;
 }
 
 .articles-content {
     position: relative;
     top: 25px;
-    left: 30px;
     margin: 0 30px;
     padding-bottom: 80px;
 }
