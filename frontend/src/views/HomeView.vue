@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="content">
-      <p>当前{{ $store.state }}</p> <button @click="add">点击</button>
       <el-card v-for="item in articles" class="homeview-content-card" :key="item.id"
         @click.native="handleCardClick(item.id)">
         <div class="homeview-content-card-author clearfix">
