@@ -70,6 +70,7 @@ const themeModule = {
     getters: {
         // 快速获取当前主题
         currentTheme: state => state.theme,
+        
     }
 }
 

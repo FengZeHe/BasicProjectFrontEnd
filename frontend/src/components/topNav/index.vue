@@ -50,6 +50,15 @@ export default {
             }
             console.log(this.$store.state.theme.theme)
         }
+    },
+    created() {
+        if (this.$store.state.theme.theme === 'light') {
+            this.darkMode = false
+        } else {
+            this.darkMode = true
+        }
+        console.log(this.$store.state.theme.theme)
+
     }
 }
 </script>
