@@ -1,0 +1,48 @@
+/* 全局基础样式 - 亮色 */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #303133;
+  --border-color: #e6e6e6;
+}
+
+:root #main {
+  background-color: #ffffff;
+}
+
+:root .articles {
+  background-color: #ffffff;
+}
+:root .homeview-content-card{
+   background-color: #ffffff;
+   color: #303133;
+}
+
+
+
+/* 覆盖Element-UI默认样式 - 亮色 */
+/* 按钮样式 */
+.el-button {
+  --el-button-text-color: #303133;
+  --el-button-bg-color: #ffffff;
+  --el-button-border-color: #dcdfe6;
+}
+
+.el-button--primary {
+  --el-button-text-color: #ffffff;
+  --el-button-bg-color: #409eff;
+  --el-button-border-color: #409eff;
+}
+
+/* 卡片样式 */
+.el-card {
+  --el-card-bg-color: #ffffff;
+  --el-card-border-color: #e6e6e6;
+  --el-card-text-color: #303133;
+}
+
+/* 输入框样式 */
+.el-input__inner {
+  background-color: #ffffff;
+  border: 1px solid #dcdfe6;
+  color: #303133;
+}

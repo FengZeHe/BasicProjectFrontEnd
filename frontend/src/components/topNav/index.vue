@@ -21,6 +21,12 @@
                     <el-dropdown-item divided>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
+
+            <!-- todo 加一个Switch按钮 -->
+            <el-switch v-model="darkMode" active-text="Dark" class="hader-content-user-info-themeswitch"
+                @change="themeSwitch">
+
+            </el-switch>
         </div>
     </div>
 
@@ -31,7 +37,18 @@ export default {
     data() {
         return {
             userName: "Admin",
-            avatarUrl: require("@/assets/avatar.png")
+            avatarUrl: require("@/assets/avatar.png"),
+            darkMode: true
+        }
+    },
+    methods: {
+        themeSwitch(data) {
+            if (data === true) {
+                this.$store.commit('theme/SET_THEME', 'dark')
+            } else {
+                this.$store.commit('theme/SET_THEME', 'light')
+            }
+            console.log(this.$store.state.theme.theme)
         }
     }
 }
@@ -46,7 +63,7 @@ body {
 }
 
 .header-content {
-  height: 60px;
+    height: 60px;
 }
 
 html::-webkit-scrollbar {
@@ -89,15 +106,19 @@ html::-webkit-scrollbar {
     }
 
     .hader-content-user-info {
-        width: 15%;
+        width: 30%;
         height: 100%;
         display: flex;
         justify-content: center;
         flex-direction: row;
         align-items: center;
 
-        .hader-content-user-info-avatar{
+        .hader-content-user-info-avatar {
             margin-right: 10px;
+        }
+
+        .hader-content-user-info-themeswitch {
+            margin-left: 10px;
         }
     }
 

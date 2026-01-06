@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    12323123
-    {{ $store.state }}
     <el-container>
       <el-header v-if="!$route.meta.noMenu">
           <topNav/>
