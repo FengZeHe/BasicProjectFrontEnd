@@ -5,17 +5,29 @@
   --border-color: #383838;
 }
 
-:root #main{
-    background-color: #1e1e20;
-}
-
-:root .articles{
+:root #main,.articles {
   background-color: #1e1e20;
 }
 
-:root .homeview-content-card{
-   background-color: #1e1e20;
-   color: #e5e5e5;
+
+:root .homeview-content-card {
+  background-color: #1e1e20;
+  color: #e5e5e5;
+}
+
+:root .logo-text,
+.el-dropdown-link,
+.hader-content-user-info-dropdown {
+  color: #e5e5e5;
+  background-color: #1e1e20;
+}
+
+:root .el-button-group>.el-button:first-child {
+  background-color: #1e1e20;
+}
+
+:root .el-dropdown__caret-button{
+  background-color: #1e1e20;
 }
 
 /* 覆盖Element-UI默认样式 - 暗色 */
@@ -25,6 +37,7 @@
   --el-button-bg-color: #2d2d30;
   --el-button-border-color: #444444;
 }
+
 .el-button--primary {
   --el-button-text-color: #ffffff;
   --el-button-bg-color: #007acc;

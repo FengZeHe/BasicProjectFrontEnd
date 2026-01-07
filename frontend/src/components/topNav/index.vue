@@ -11,7 +11,7 @@
 
         <div class="hader-content-user-info">
             <el-avatar size="small" :src="avatarUrl" class="hader-content-user-info-avatar"></el-avatar>
-            <el-dropdown split-button>
+            <el-dropdown split-button class="hader-content-user-info-dropdown">
                 <span class="el-dropdown-link">
                     <span>{{ userName }} </span>
                 </span>
@@ -22,7 +22,6 @@
                 </el-dropdown-menu>
             </el-dropdown>
 
-            <!-- todo 加一个Switch按钮 -->
             <el-switch v-model="darkMode" active-text="Dark" class="hader-content-user-info-themeswitch"
                 @change="themeSwitch">
 
@@ -33,6 +32,7 @@
 </template>
 
 <script>
+import axios from "@/axios"
 export default {
     data() {
         return {
@@ -43,23 +43,28 @@ export default {
     },
     methods: {
         themeSwitch(data) {
+            var mode = ''
             if (data === true) {
                 this.$store.commit('theme/SET_THEME', 'dark')
+                mode = 'dark'
             } else {
                 this.$store.commit('theme/SET_THEME', 'light')
+                mode = 'light'
             }
-            console.log(this.$store.state.theme.theme)
-        }
+            this.$store.dispatch('theme/syncTheme', mode)
+        },
+
     },
     created() {
         if (this.$store.state.theme.theme === 'light') {
             this.darkMode = false
+            this.$store.commit('theme/SET_THEME', 'light')
         } else {
             this.darkMode = true
+            this.$store.commit('theme/SET_THEME', 'dark')
         }
-        console.log(this.$store.state.theme.theme)
+    },
 
-    }
 }
 </script>
 
