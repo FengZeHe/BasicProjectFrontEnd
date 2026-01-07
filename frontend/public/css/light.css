@@ -5,18 +5,27 @@
   --border-color: #e6e6e6;
 }
 
-:root #main {
+:root #main,.articles  {
   background-color: #ffffff;
 }
 
-:root .articles {
-  background-color: #ffffff;
-}
 :root .homeview-content-card{
    background-color: #ffffff;
    color: #303133;
 }
 
+:root .logo-text,.el-dropdown-link,.hader-content-user-info-dropdown{
+  color: #303133;
+  background-color: #ffffff;
+}
+
+:root .el-button-group>.el-button:first-child {
+  background-color: #fff;
+}
+
+:root .el-dropdown__caret-button{
+  background-color: #fff;
+}
 
 
 /* 覆盖Element-UI默认样式 - 亮色 */

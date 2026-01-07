@@ -1,4 +1,5 @@
 import { loadCss, removeCss } from "@/utils/themeLoader";
+import axios from "@/axios";
 
 //定义主题模式常量
 export const THEME_MODE = {
@@ -27,7 +28,7 @@ const themeModule = {
         currentThemeID: ''
     },
     mutations: {
-        // 修改主题 { mode, cssId }
+        // 本地修改主题 { mode, cssId }
         SET_THEME(state, mode) {
             switch (mode) {
                 case THEME_MODE.LIGHT:
@@ -45,7 +46,6 @@ const themeModule = {
             }
 
             const targetConfig = THEME_CONFIG[mode]
-            console.log(targetConfig)
             if (!targetConfig) return;
 
 
@@ -55,9 +55,6 @@ const themeModule = {
             }
 
             localStorage.setItem('theme_mode', mode);
-
-
-
         }
 
     },
@@ -65,12 +62,24 @@ const themeModule = {
         // 初始化主题(远程)
         initTheme() {
 
+        },
+
+        /*
+        远程同步
+        */
+        syncTheme(context,mode) {
+            axios.post("/usersetting/", {
+                "themeMode": mode
+            }).then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+            })
         }
+
     },
     getters: {
-        // 快速获取当前主题
         currentTheme: state => state.theme,
-        
     }
 }
 
