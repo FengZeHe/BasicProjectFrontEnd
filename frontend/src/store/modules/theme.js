@@ -30,6 +30,18 @@ const themeModule = {
     mutations: {
         // 本地修改主题 { mode, cssId }
         SET_THEME(state, mode) {
+            const targetConfig = THEME_CONFIG[mode]
+            if (!targetConfig) return;
+
+            // 先移除旧主题CSS
+            if (state.currentThemeID) {
+                removeCss(state.currentThemeID);
+            }
+
+            // 再加载新主题CSS
+            loadCss(targetConfig.url, targetConfig.id)
+
+            // 更新状态
             switch (mode) {
                 case THEME_MODE.LIGHT:
                     state.theme = mode
@@ -43,15 +55,6 @@ const themeModule = {
                     state.theme = THEME_MODE.LIGHT;
                     state.currentThemeID = 'theme-light'
                     break
-            }
-
-            const targetConfig = THEME_CONFIG[mode]
-            if (!targetConfig) return;
-
-
-            loadCss(targetConfig.url, targetConfig.id)
-            if (state.currentCssId) {
-                removeCss(state.currentCssId);
             }
 
             localStorage.setItem('theme_mode', mode);

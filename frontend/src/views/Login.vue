@@ -51,7 +51,7 @@ export default {
     };
     return {
       loginForm: {
-        email: '1@qq.com',
+        email: 'admin@qq.com',
         password: '123'
       },
       loading: false,
@@ -78,7 +78,7 @@ export default {
               message: '登录成功',
               type: 'success'
             });
-            this.$router.push('/');
+            window.location.href = '/';
           }).catch(err => {
             console.error(err);
             this.$message({
