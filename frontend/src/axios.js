@@ -3,7 +3,7 @@ import router from "@/router";
 
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8088/v2",
+    baseURL: process.env.VUE_APP_BASE_URL, 
     timeout:1000,
 })
 
@@ -36,6 +36,7 @@ instance.interceptors.response.use(response => {
     }
     return Promise.reject(error);
 })
+
 
 export default instance;
 
