@@ -94,6 +94,15 @@ html::-webkit-scrollbar {
     font-size: 20px;
     font-weight: 600;
     color: var(--text-primary);
+    // border: 1px solid red;
+    background-color: #ffffff;
+}
+
+.header-content-name a {
+    text-decoration: none;
+    background-color: transparent;
+    display: block;
+    height: 100%;
 }
 
 

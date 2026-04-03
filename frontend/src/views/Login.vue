@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "@/axios"
 
 export default {
   name: 'Login',
@@ -51,7 +51,7 @@ export default {
     };
     return {
       loginForm: {
-        email: '1@qq.com',
+        email: 'admin@qq.com',
         password: '123'
       },
       loading: false,
@@ -69,7 +69,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          axios.post('http://127.0.0.1:8088/v2/users/login', {
+          axios.post('/users/login', {
             email: this.loginForm.email,
             password: this.loginForm.password
           }).then(res => {
@@ -78,7 +78,7 @@ export default {
               message: '登录成功',
               type: 'success'
             });
-            this.$router.push('/');
+            window.location.href = '/';
           }).catch(err => {
             console.error(err);
             this.$message({
@@ -92,7 +92,6 @@ export default {
       });
     },
     SetJwtToken(token) {
-      // document.cookie = 'jwt=' + token;
       localStorage.setItem('userToken',token)
     }
   }
