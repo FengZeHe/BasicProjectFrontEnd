@@ -92,7 +92,6 @@ export default {
       });
     },
     SetJwtToken(token) {
-      // document.cookie = 'jwt=' + token;
       localStorage.setItem('userToken',token)
     }
   }
