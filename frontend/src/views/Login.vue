@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "@/axios"
 
 export default {
   name: 'Login',
@@ -69,7 +69,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          axios.post('http://127.0.0.1:8088/v2/users/login', {
+          axios.post('/users/login', {
             email: this.loginForm.email,
             password: this.loginForm.password
           }).then(res => {
