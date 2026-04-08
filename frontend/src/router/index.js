@@ -12,6 +12,7 @@ import MenuManagement from '../views/menuManagement.vue'
 import DraftList from '../views/draftList.vue'
 import Article from '../views/Articles.vue'
 import Collection from '@/views/CollectionView.vue'
+import ScheduledTask from '@/views/ScheduledTask.vue'
 
 Vue.use(VueRouter)
 
@@ -83,6 +84,11 @@ const routes = [
         path: '/collection',
         name: 'collection',
         component: Collection,
+        mate: { noMenu: false, requireAuth: true },
+    },{
+        path:'/scheduledTask',
+        name: 'scheduledTask',
+        component: ScheduledTask,
         mate: { noMenu: false, requireAuth: true },
     }
 ]
