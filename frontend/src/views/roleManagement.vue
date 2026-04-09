@@ -1,9 +1,9 @@
 <template>
   <div class="roleManagement">
-    <h1>This is role Management Page</h1>
+    <h2>角色管理</h2>
     <el-table :data="roleList" style="width: 100%">
       <el-table-column prop="role_name" width="180" label="名称"></el-table-column>
-      <el-table-column prop="desc" width="180" label="描述"></el-table-column>
+      <el-table-column prop="desc" min-width="200" label="描述"></el-table-column>
       <el-table-column prop="status" width="180" label="状态">
         <template v-slot="scope">
           <el-switch
@@ -270,6 +270,14 @@ export default {
 
 
 <style scoped>
+.roleManagement {
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.el-table {
+  width: 100% !important;
+}
 .menu-item {
   display: flex;
 }

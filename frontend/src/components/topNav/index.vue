@@ -72,11 +72,14 @@ html,
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    border:  1px solid green;
 }
 
 .header-content {
     height: 60px;
+    width: 100%;
+    // border: 1px solid red;
+    // background-color: #ffffff;
 }
 
 html::-webkit-scrollbar {
@@ -93,9 +96,9 @@ html::-webkit-scrollbar {
     text-align: center;
     font-size: 20px;
     font-weight: 600;
-    color: var(--text-primary);
+    // color: var(--text-primary);
     // border: 1px solid red;
-    background-color: #ffffff;
+    //background-color: #ffffff;
 }
 
 .header-content-name a {

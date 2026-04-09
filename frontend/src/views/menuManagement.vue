@@ -5,12 +5,12 @@
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="path" label="路径" width="180"></el-table-column>
       <el-table-column prop="order_no" label="序号" width="180"></el-table-column>
-      <el-table-column  label="操作" width="180">
-        <el-button-group>
-          <el-button type="danger" icon="el-icon-delete" circle></el-button>
-
-        </el-button-group>
-
+      <el-table-column label="操作" width="180">
+        <template v-slot="scope">
+          <el-button-group>
+            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+          </el-button-group>
+        </template>
       </el-table-column>
     </el-table>
   </div>

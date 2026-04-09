@@ -3,12 +3,12 @@
         <div class="content">
             <el-card v-for="item in collectList" class="homeview-content-card" :key="item.id"
                 @click.native="handleCardClick(item.aid)">
+                <div class="homeview-content-card-title">{{ item.title }}</div>
                 <div class="homeview-content-card-author clearfix">
                     <img class="homeview-card-avatar" src="@/assets/bruce.jpg" alt="">
                     <div class="homeview-card-authorName">{{ item.author }}</div>
                 </div>
-                <div class="homeview-content-card-title">{{ item.title }}</div>
-                <div class="homeview-content-card-content">{{ item.content }}</div>
+                <!-- <div class="homeview-content-card-content">{{ item.content }}</div> -->
             </el-card>
         </div>
 
@@ -57,4 +57,46 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.collection {
+  padding: 20px;
+}
+
+.homeview-content-card {
+  margin-top: 1rem;
+}
+
+.homeview-content-card-author {
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 10px;
+}
+
+.homeview-card-avatar {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  float: none;
+}
+
+.homeview-card-authorName {
+  font-size: 12px;
+  color: #868686;
+  margin: 0;
+}
+
+.homeview-content-card-title {
+  padding: 10px 15px 5px;
+  font-size: 14px;
+  color: #646464;
+  font-weight: bold;
+  text-align: left;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+</style>

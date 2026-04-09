@@ -1,6 +1,5 @@
 <template>
   <div class="WriteArticle">
-    <h1>This is Write Article Page</h1>
     <br>
     <h3>标题</h3>
     <el-input v-model="Article.title" placeholder="请输入标题"></el-input>
