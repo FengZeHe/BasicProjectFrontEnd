@@ -14,9 +14,13 @@
    color: #303133;
 }
 
-:root .logo-text,.el-dropdown-link,.hader-content-user-info-dropdown{
+:root .el-dropdown-link,.hader-content-user-info-dropdown{
   color: #303133;
   background-color: #ffffff;
+}
+
+:root .logo-text{
+  color: #303133;
 }
 
 :root .el-button-group>.el-button:first-child {
@@ -54,4 +58,27 @@
   background-color: #ffffff;
   border: 1px solid #dcdfe6;
   color: #303133;
+}
+
+/* 表格样式 - 亮色 */
+.el-table {
+  background-color: #ffffff;
+  color: #303133;
+}
+.el-table th,
+.el-table tr {
+  background-color: #ffffff;
+  color: #303133;
+}
+.el-table td,
+.el-table th.is-leaf {
+  border-color: #ebeef5;
+}
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #f5f7fa;
+}
+.el-table__header-wrapper th {
+  background-color: #fafafa;
+  color: #909399;
+  border-color: #ebeef5;
 }
