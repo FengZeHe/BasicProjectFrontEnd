@@ -16,7 +16,7 @@
                     <span>{{ userName }} </span>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>个人信息</el-dropdown-item>
+                    <el-dropdown-item @click.native="toAbout">个人信息</el-dropdown-item>
                     <el-dropdown-item>修改密码</el-dropdown-item>
                     <el-dropdown-item divided>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
@@ -52,6 +52,10 @@ export default {
             }
             this.$store.dispatch('theme/syncTheme', mode)
         },
+        toAbout(){
+            console.log("hlo")
+            this.$router.push("/about");
+        }
 
     },
     created() {
