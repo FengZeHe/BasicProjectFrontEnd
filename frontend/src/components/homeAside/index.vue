@@ -20,6 +20,7 @@
                     class="custom-menu-item"
                 >
                     <div class="menu-item-content">
+                        <i :class="getMenuIcon(menuItem.name)" class="menu-icon"></i>
                         <span class="menu-text">{{ menuItem.name }}</span>
                     </div>
                 </el-menu-item>
@@ -43,6 +44,21 @@ export default {
         }
     },
     methods: {
+        getMenuIcon(menuName) {
+            // 根据菜单名称包含的关键字匹配图标
+            if (menuName.includes('首页') || menuName.includes('home')) return 'el-icon-s-home'
+            if (menuName.includes('用户') || menuName.includes('user')) return 'el-icon-user'
+            if (menuName.includes('角色') || menuName.includes('role')) return 'el-icon-s-custom'
+            if (menuName.includes('菜单') || menuName.includes('menu')) return 'el-icon-menu'
+            if (menuName.includes('设置') || menuName.includes('setting')) return 'el-icon-setting'
+            if (menuName.includes('文章') || menuName.includes('article')) return 'el-icon-document'
+            if (menuName.includes('任务') || menuName.includes('task')) return 'el-icon-date'
+            if (menuName.includes('日志') || menuName.includes('log')) return 'el-icon-document-copy'
+            if (menuName.includes('系统') || menuName.includes('system')) return 'el-icon-s-tools'
+            if (menuName.includes('数据') || menuName.includes('data')) return 'el-icon-s-data'
+            if (menuName.includes('图表') || menuName.includes('chart')) return 'el-icon-s-marketing'
+            return 'el-icon-s-grid'
+        },
         toggleCollapse() {
             this.isCollapsed = !this.isCollapsed;
         },
@@ -88,10 +104,15 @@ export default {
             opacity: 0;
             width: 0;
             overflow: hidden;
+            margin-left: 0;
         }
 
         .custom-menu-item.el-menu-item {
             padding: 0 16px !important;
+            justify-content: center;
+        }
+
+        .menu-item-content {
             justify-content: center;
         }
     }
@@ -177,16 +198,24 @@ export default {
     .menu-item-content {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         height: 100%;
         width: 100%;
+
+        .menu-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            width: 20px;
+            text-align: center;
+        }
 
         .menu-text {
             font-size: 14px;
             font-weight: 500;
             letter-spacing: 0.5px;
             white-space: nowrap;
-            transition: opacity 0.2s ease, width 0.3s ease;
+            transition: opacity 0.2s ease, width 0.3s ease, margin 0.3s ease;
+            margin-left: 10px;
         }
     }
 }

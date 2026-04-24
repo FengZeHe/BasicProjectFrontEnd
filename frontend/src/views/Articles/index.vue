@@ -134,7 +134,10 @@ export default {
             this.$router.push('/');
         },
         toUserProfile(){
-            this.$router.push('/userprofile')
+            this.$router.push({
+                path: '/userprofile',
+                query: { author_id: this.article.authorId }
+            })
         },
         getArticleFromHomeView() {
             const id = this.$route.query.article;

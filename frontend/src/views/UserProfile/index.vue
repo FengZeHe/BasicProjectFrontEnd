@@ -160,9 +160,23 @@ export default {
             console.error(err);
           });
     },
+    getUserProfile() {
+      const authorId = this.$route.query.author_id;
+      if (!authorId) return;
+      axios.get('/sys/userProfileByUID', {
+        params: { uid: authorId }
+      }).then(res => {
+        if (res.data.data) {
+          this.userName = res.data.data.nickName;
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+    }
   },
   mounted() {
-    this.getBase64Image();
+    // this.getBase64Image();
+    this.getUserProfile();
   },
 };
 </script>
