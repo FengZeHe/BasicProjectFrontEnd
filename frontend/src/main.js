@@ -15,8 +15,10 @@ Vue.config.productionTip = false
 const savedTheme = localStorage.getItem('theme_mode') || THEME_MODE.LIGHT;
 if (savedTheme === THEME_MODE.LIGHT) {
   loadCss('/css/light.css', 'theme-light');
+  document.body.classList.add('light');
 } else {
   loadCss('/css/dark.css', 'theme-dark');
+  document.body.classList.add('dark');
 }
 
 new Vue({

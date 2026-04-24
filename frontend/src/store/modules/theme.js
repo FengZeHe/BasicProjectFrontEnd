@@ -1,5 +1,5 @@
 import { loadCss, removeCss } from "@/utils/themeLoader";
-import axios from "@/axios";
+import axios from "axios";
 
 //定义主题模式常量
 export const THEME_MODE = {
@@ -41,19 +41,25 @@ const themeModule = {
             // 再加载新主题CSS
             loadCss(targetConfig.url, targetConfig.id)
 
-            // 更新状态
+            // 更新状态并给body添加类名
             switch (mode) {
                 case THEME_MODE.LIGHT:
                     state.theme = mode
                     state.currentThemeID = 'theme-light'
+                    document.body.classList.remove('dark')
+                    document.body.classList.add('light')
                     break
                 case THEME_MODE.DARK:
                     state.theme = mode
                     state.currentThemeID = 'theme-dark'
+                    document.body.classList.remove('light')
+                    document.body.classList.add('dark')
                     break
                 default:
-                    state.theme = THEME_MODE.LIGHT;
+                    state.theme = THEME_MODE.LIGHT
                     state.currentThemeID = 'theme-light'
+                    document.body.classList.remove('dark')
+                    document.body.classList.add('light')
                     break
             }
 
@@ -63,21 +69,22 @@ const themeModule = {
     },
     actions: {
         // 初始化主题(远程)
-        initTheme() {
-
+        initTheme({ state, commit }) {
+            const savedTheme = localStorage.getItem('theme_mode') || THEME_MODE.LIGHT
+            commit('SET_THEME', savedTheme)
         },
 
         /*
         远程同步
         */
-        syncTheme(context,mode) {
+        syncTheme(context, mode) {
             axios.post("/usersetting/", {
                 "themeMode": mode
             }).then((res) => {
                 console.log(res)
             }).catch((err) => {
                 console.log(err)
-            })
+            });
         }
 
     },

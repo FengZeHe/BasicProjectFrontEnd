@@ -1,46 +1,51 @@
 /* 全局基础样式 - 暗色 */
-:root {
+body.dark {
   --bg-color: #1e1e20;
-  --text-color: #e5e5e5;
-  --border-color: #383838;
+  --card-bg: #2d2d30;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #6b6b6b;
+  --border-color: #444444;
+  --primary-color: #667eea;
 }
 
-:root #main,.articles {
+body.dark #main,
+body.dark .articles,
+body.dark .home {
   background-color: #1e1e20;
 }
 
-
-:root .homeview-content-card {
+body.dark .homeview-content-card {
   background-color: #1e1e20;
   color: #e5e5e5;
 }
 
-:root .logo-text,
-.el-dropdown-link,
-.hader-content-user-info-dropdown,
-.header-content .logo-text,
-.header-content .user-name {
+body.dark .logo-text,
+body.dark .el-dropdown-link,
+body.dark .hader-content-user-info-dropdown,
+body.dark .header-content .logo-text,
+body.dark .header-content .user-name {
   color: #e5e5e5;
 }
 
-:root .user-dropdown-wrapper:hover {
+body.dark .user-dropdown-wrapper:hover {
   background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-:root .user-avatar {
+body.dark .user-avatar {
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-:root .home-aside {
+body.dark .home-aside {
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-:root .el-menu-vertical {
+body.dark .el-menu-vertical {
   background-color: transparent !important;
 }
 
-:root .custom-menu-item.el-menu-item {
+body.dark .custom-menu-item.el-menu-item {
   color: #94a3b8;
 
   &:hover {
@@ -54,12 +59,7 @@
   }
 }
 
-:root .home-aside {
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-:root .toggle-btn {
+body.dark .toggle-btn {
   background-color: rgba(255, 255, 255, 0.05) !important;
   color: #94a3b8 !important;
 
@@ -69,129 +69,170 @@
   }
 }
 
-:root .el-button-group>.el-button:first-child {
+body.dark .el-button-group > .el-button:first-child {
   background-color: #1e1e20;
 }
 
-:root .el-dropdown__caret-button{
+body.dark .el-dropdown__caret-button {
   background-color: #1e1e20;
 }
 
 /* 覆盖Element-UI默认样式 - 暗色 */
-/* 按钮样式 */
-.el-button {
+body.dark .el-button {
   --el-button-text-color: #e5e5e5;
   --el-button-bg-color: #2d2d30;
   --el-button-border-color: #444444;
 }
 
-.el-button--primary {
+body.dark .el-button--primary {
   --el-button-text-color: #ffffff;
-  --el-button-bg-color: #007acc;
-  --el-button-border-color: #007acc;
+  --el-button-bg-color: #409eff;
+  --el-button-border-color: #409eff;
 }
 
 /* 卡片样式 */
-.el-card {
+body.dark .el-card {
   --el-card-bg-color: #2d2d30;
   --el-card-border-color: #444444;
   --el-card-text-color: #e5e5e5;
 }
 
 /* 输入框样式 */
-.el-input__inner {
+body.dark .el-input__inner {
   background-color: #2d2d30;
   border: 1px solid #444444;
   color: #e5e5e5;
 }
 
 /* 表格样式 - 暗色 */
-.el-table {
+body.dark .el-table {
+  background-color: #2d2d30 !important;
+  color: #e5e5e5 !important;
+  --table-hover-bg: #3d3d40;
+  --table-even-bg: #2a2a2c;
+}
+body.dark .el-table th,
+body.dark .el-table tr {
   background-color: #2d2d30 !important;
   color: #e5e5e5 !important;
 }
-.el-table th,
-.el-table tr {
-  background-color: #2d2d30 !important;
-  color: #e5e5e5 !important;
-}
-.el-table td,
-.el-table th.is-leaf {
+body.dark .el-table td,
+body.dark .el-table th.is-leaf {
   border-color: #444444 !important;
 }
-.el-table--enable-row-hover .el-table__body tr:hover > td {
+body.dark .el-table--enable-row-hover .el-table__body tr:hover > td {
   background-color: #3d3d40 !important;
 }
-.el-table__header-wrapper,
-.el-table__header {
+body.dark .el-table__header-wrapper,
+body.dark .el-table__header {
   background-color: #252526 !important;
 }
-.el-table__header-wrapper th,
-.el-table__header th,
-.el-table th.el-table__cell {
+body.dark .el-table__header-wrapper th,
+body.dark .el-table__header th,
+body.dark .el-table th.el-table__cell {
   background-color: #252526 !important;
   color: #e5e5e5 !important;
   border-color: #444444 !important;
 }
-.el-table th.el-table__cell > .cell {
+body.dark .el-table th.el-table__cell > .cell {
   color: #e5e5e5 !important;
 }
-.el-table tr.el-table__row {
+body.dark .el-table tr.el-table__row {
   background-color: #2d2d30 !important;
 }
-.el-table td.el-table__cell {
+body.dark .el-table td.el-table__cell {
   background-color: #2d2d30 !important;
   color: #e5e5e5 !important;
   border-color: #444444 !important;
 }
-.el-tag--info {
+body.dark .el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #2a2a2c !important;
+}
+body.dark .el-tag--info {
   background-color: #3d3d40;
   border-color: #555555;
   color: #e5e5e5;
 }
-.el-tag--success {
+body.dark .el-tag--success {
   background-color: #1e3a1e;
   border-color: #3d6b3d;
   color: #85ce85;
 }
-.el-drawer {
+body.dark .el-drawer {
   background-color: #2d2d30;
   color: #e5e5e5;
 }
-.el-drawer__header {
+body.dark .el-drawer__header {
   color: #e5e5e5;
   border-bottom-color: #444444;
 }
-.el-form-item__label {
+body.dark .el-form-item__label {
   color: #e5e5e5;
 }
-.el-input__inner {
+body.dark .el-input__inner {
   background-color: #3d3d40;
   border-color: #555555;
   color: #e5e5e5;
 }
-.el-select .el-input__inner {
+body.dark .el-select .el-input__inner {
   background-color: #3d3d40;
   border-color: #555555;
   color: #e5e5e5;
 }
-.el-select-dropdown {
+body.dark .el-select-dropdown {
   background-color: #2d2d30;
   border-color: #444444;
 }
-.el-select-dropdown__item {
+body.dark .el-select-dropdown__item {
   color: #e5e5e5;
 }
-.el-select-dropdown__item:hover {
+body.dark .el-select-dropdown__item:hover {
   background-color: #3d3d40;
 }
-.el-select-dropdown__item.selected {
+body.dark .el-select-dropdown__item.selected {
   color: #409eff;
 }
 
-/* 全局body样式适配 */
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Drawer 组件 */
+body.dark .el-drawer {
+  background-color: #252526 !important;
+  color: #e5e5e5;
+}
+body.dark .el-drawer__header {
+  color: #e5e5e5;
+  border-bottom-color: #444444;
+}
+
+/* Transfer 组件 */
+body.dark .el-transfer-panel {
+  background-color: #2d2d30;
+  border-color: #444444;
+}
+body.dark .el-transfer-panel__header {
+  background-color: #252526 !important;
+  border-color: #444444;
+}
+body.dark .el-transfer-panel__body {
+  background-color: #2d2d30;
+}
+body.dark .el-transfer-panel__list.is-filterable {
+  background-color: #2d2d30;
+}
+body.dark .el-transfer-panel__item {
+  color: #e5e5e5;
+}
+body.dark .el-transfer-panel__item:hover {
+  background-color: #3d3d40 !important;
+}
+body.dark .el-transfer-panel__empty {
+  color: #888888;
+}
+body.dark .el-button--default {
+  background-color: #3d3d40;
+  border-color: #555555;
+  color: #e5e5e5;
+}
+body.dark .el-button--default:hover {
+  background-color: #4d4d50;
+  border-color: #666666;
 }

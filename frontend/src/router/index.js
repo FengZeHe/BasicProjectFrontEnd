@@ -13,6 +13,7 @@ import DraftList from '../views/DraftList/index.vue'
 import Article from '../views/Articles/index.vue'
 import Collection from '@/views/CollectionView/index.vue'
 import ScheduledTask from '@/views/ScheduledTask/index.vue'
+import UserProfile from '@/views/UserProfile/index.vue'
 
 Vue.use(VueRouter)
 
@@ -85,10 +86,15 @@ const routes = [
         name: 'collection',
         component: Collection,
         mate: { noMenu: false, requireAuth: true },
-    },{
-        path:'/scheduledTask',
+    }, {
+        path: '/scheduledTask',
         name: 'scheduledTask',
         component: ScheduledTask,
+        mate: { noMenu: false, requireAuth: true },
+    }, {
+        path: '/userProfile',
+        name: 'userProfile',
+        component: UserProfile,
         mate: { noMenu: false, requireAuth: true },
     }
 ]

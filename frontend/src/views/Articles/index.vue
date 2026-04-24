@@ -1,50 +1,100 @@
 <template>
     <div class="articles">
-        <h1 class="articles-title">{{ article.title }}</h1>
-        <img class="articles-icon clearfix" src="@/assets/bruce.jpg" alt="">
-        <div class="articles-author">{{ article.authorName }}</div>
-        <div class="articles-time">{{ article.createdAt }}</div>
-        <div class="articles-content">
-            <p v-for="(paragraph, index) in paragraphs" :key="index">{{ paragraph }}</p>
-        </div>
+        <div class="article-wrapper">
+            <!-- 返回按钮 -->
+            <div class="back-section">
+                <el-button icon="el-icon-arrow-left" @click="goBack" class="back-btn">返回</el-button>
+            </div>
 
-        <div class="articles-content-btn" @click="handleCollect">
-            <img :src="selectImg('collect', interactiveStatus.collected)" alt="">
-            <span>{{ interactiveStatus.collectCount }}</span>
-        </div>
+            <!-- 文章标题 -->
+            <h1 class="articles-title">{{ article.title }}</h1>
 
-        <div class="articles-content-btn" @click="handleLike">
-            <img :src="selectImg('like', interactiveStatus.liked)" alt="">
-            <span>{{ interactiveStatus.likeCount }}</span>
-        </div>
-
-        <el-divider></el-divider>
-        <div class="article-comment">
-            <div class="article-comment-block" v-for="item in comment.list" :key="item.parent.id">
-                <div class="article-comment-block-root">
-                    <img class="article-comment-block-root-img" src="@/assets/cat.jpg" alt="">
-                    <div class="article-comment-block-root-name">Cat</div>
+            <!-- 作者信息 -->
+            <div class="article-meta" @click="toUserProfile">
+                <div class="author-info">
+                    <div class="author-avatar">
+                        <i class="el-icon-user"></i>
+                    </div>
+                    <div class="author-details">
+                        <span class="author-name">{{ article.authorName }}</span>
+                        <span class="publish-time">{{ formatDate(article.createdAt) }}</span>
+                    </div>
                 </div>
-                <div class="article-comment-block-comment">
-                    <p>{{ item.parent.content }}</p>
-                    <div class="article-comment-block-comment-reply">回复</div>
-                    <div class="article-comment-block-comment-time">{{ item.parent.createdAt }}</div>
 
-                    <div class="article-comment-block-comment-to-comment" v-for="child in item.child" :key="child.id">
-                        <div class="artilce-comment-to-comment-block">
-                            <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
-                            <div class="article-comment-block-comment-name">{{ child.content }}</div>
-                            <div class="article-comment-block-comment-reply">回复</div>
-                            <div class="article-comment-block-comment-time">{{ child.createdAt }}</div>
-                        </div>
+            </div>
+
+            <!-- 文章内容 -->
+            <div class="articles-content">
+                <div class="content-body" v-html="renderedContent"></div>
+
+                <!-- 互动数据 -->
+                <div class="article-footer-stats">
+                    <div class="footer-stat-item">
+                        <i class="el-icon-view"></i>
+                        <span>{{ interactiveStatus.readCount || 0 }}</span>
+                    </div>
+                    <div class="footer-stat-item" :class="{ active: interactiveStatus.collected == 1 }"
+                        @click="handleCollect">
+                        <i :class="interactiveStatus.collected == 1 ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
+                        <span>{{ interactiveStatus.collectCount || 0 }}</span>
+                    </div>
+                    <div class="footer-stat-item" :class="{ active: interactiveStatus.liked == 1 }" @click="handleLike">
+                        <i :class="interactiveStatus.liked == 1 ? 'el-icon-thumb' : 'el-icon-thumb'"></i>
+                        <span>{{ interactiveStatus.likeCount || 0 }}</span>
                     </div>
                 </div>
             </div>
-            <div class="article-comment-reply">
-                <span>你的评论</span>
-                <el-input type="textarea" placeholder="请输入内容" v-model="textarea" maxlength="100" show-word-limit>
-                </el-input>
-                <el-button class="article-comment-reply-btn">提交</el-button>
+
+            <el-divider class="divider"></el-divider>
+
+            <!-- 评论区 -->
+            <div class="article-comment">
+                <h3 class="comment-title">评论 ({{ comment.list.length }})</h3>
+
+                <!-- 评论列表 -->
+                <div class="comments-list">
+                    <div class="comment-item" v-for="item in comment.list" :key="item.parent?.id">
+                        <div class="comment-avatar">
+                            <i class="el-icon-user"></i>
+                        </div>
+                        <div class="comment-content-wrapper">
+                            <div class="comment-header">
+                                <span class="comment-author">{{ item.parent?.authorName || '用户' }}</span>
+                                <span class="comment-time">{{ formatDate(item.parent?.createdAt) }}</span>
+                            </div>
+                            <div class="comment-text">{{ item.parent?.content }}</div>
+                            <div class="comment-actions">
+                                <span class="reply-btn" @click="replyTo(item.parent?.id)">回复</span>
+                            </div>
+
+                            <!-- 子评论 -->
+                            <div class="child-comments" v-if="item.child && item.child.length > 0">
+                                <div class="child-comment-item" v-for="child in item.child" :key="child.id">
+                                    <div class="child-avatar">
+                                        <i class="el-icon-user"></i>
+                                    </div>
+                                    <div class="child-content-wrapper">
+                                        <div class="child-header">
+                                            <span class="child-author">{{ child.authorName || '用户' }}</span>
+                                            <span class="child-time">{{ formatDate(child.createdAt) }}</span>
+                                        </div>
+                                        <div class="child-text">{{ child.content }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 发表评论 -->
+                <div class="article-comment-reply">
+                    <div class="reply-header">发表评论</div>
+                    <el-input type="textarea" placeholder="写下你的评论..." v-model="textarea" maxlength="500" show-word-limit
+                        :rows="4" class="reply-textarea"></el-input>
+                    <div class="reply-footer">
+                        <el-button type="primary" class="submit-btn" @click="submitComment">发表评论</el-button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,7 +117,25 @@ export default {
             interactiveStatus: {},
         }
     },
+    computed: {
+        renderedContent() {
+            if (!this.article.content) return '';
+            // 简单处理 Markdown 换行
+            return this.article.content
+                .replace(/\\n/g, '\n')
+                .split('\n')
+                .filter(p => p.trim() !== '')
+                .map(p => `<p>${p}</p>`)
+                .join('');
+        }
+    },
     methods: {
+        goBack() {
+            this.$router.push('/');
+        },
+        toUserProfile(){
+            this.$router.push('/userprofile')
+        },
         getArticleFromHomeView() {
             const id = this.$route.query.article;
             if (id) {
@@ -137,12 +205,11 @@ export default {
             this.addArtCollect();
         },
         async addArtLike() {
-            console.log(this.aid)
             await axios.post("/interactive/like", {
                 "aid": this.article.id,
                 "like": this.interactiveStatus.liked
             }).then((res) => {
-                console.log(res)
+                this.$message.success(this.interactiveStatus.liked === 1 ? '点赞成功' : '已取消点赞');
             }).catch((err) => {
                 console.log(err)
             });
@@ -152,7 +219,7 @@ export default {
                 "aid": this.article.id,
                 "collect": this.interactiveStatus.collected
             }).then((res) => {
-                console.log(res)
+                this.$message.success(this.interactiveStatus.collected === 1 ? '收藏成功' : '已取消收藏');
             }).catch((err) => {
                 console.log(err)
             });
@@ -169,20 +236,30 @@ export default {
                 console.log("err", err)
             });
         },
-    },
-    computed: {
-        selectImg() {
-            return (iconType, selected) => {
-                if (iconType == "like" && selected == "1") {
-                    return require("@/assets/like-orange-selected.png");
-                } else if (iconType == "like" && selected == "0") {
-                    return require("@/assets/like-orange.png");
-                } else if (iconType == "collect" && selected == "1") {
-                    return require("@/assets/collect-selected.png");
-                } else if (iconType == "collect" && selected == "0") {
-                    return require("@/assets/collect.png");
-                }
+        formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        },
+        replyTo(id) {
+            this.textarea = `@${id} `;
+            this.$nextTick(() => {
+                const textarea = document.querySelector('.reply-textarea textarea');
+                if (textarea) textarea.focus();
+            });
+        },
+        submitComment() {
+            if (!this.textarea.trim()) {
+                this.$message.warning('请输入评论内容');
+                return;
             }
+            this.$message.success('评论发表成功');
+            this.textarea = '';
         }
     },
     created() {
@@ -193,198 +270,335 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .articles {
     width: 100%;
-    height: 100%;
-    position: relative;
+    min-height: 100%;
+    background: #f7f8fa;
+}
+
+.article-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+.back-section {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.back-btn {
+    border: none;
+    background: transparent;
+    color: #606a75;
+    padding: 8px 12px;
+
+    &:hover {
+        color: #409eff;
+        background: #f0f7ff;
+    }
 }
 
 .articles-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1d2129;
     text-align: left;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.article-meta {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 28px;
+    border-top: 1px solid #f2f3f5;
+    border-bottom: 1px solid #f2f3f5;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.author-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
     font-size: 24px;
-    position: relative;
-    left: 30px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
-.articles-author {
-    color: #37a;
-    text-align: left;
-    position: relative;
-    left: 40px;
-    font-weight: bold;
+.author-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.author-name {
     font-size: 16px;
+    font-weight: 600;
+    color: #1d2129;
 }
 
-.articles-time {
-    text-align: left;
-    position: relative;
-    left: 40px;
-    top: 15px;
+.publish-time {
     font-size: 13px;
-    color: #999;
-}
-
-.articles-icon {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    left: 30px;
-    border: 1px solid #ccc;
-    float: left;
-}
-
-.clearfix::after {
-    content: "";
-    display: block;
-    clear: both;
+    color: #909399;
 }
 
 .articles-content {
-    position: relative;
-    top: 25px;
-    margin: 0 30px;
-    padding-bottom: 80px;
-}
-
-.articles-content p {
-    text-indent: 2em;
-    line-height: 1.8;
-    margin: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     text-align: left;
-    font-size: 15px;
 }
 
-.articles-content-btn {
-    background-color: #FBE9D9;
-    position: relative;
+.content-body {
+    p {
+        font-size: 16px;
+        line-height: 1.9;
+        color: #303133;
+        margin-bottom: 18px;
+        text-align: justify;
+    }
+}
+
+.article-footer-stats {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #f2f3f5;
+}
+
+.footer-stat-item {
     display: flex;
     align-items: center;
-    float: right;
-    width: 75px;
-    height: 30px;
-    line-height: 30px;
-    margin-right: 30px;
-    top: -15px;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #f7f8fa;
+    color: #606a75;
     cursor: pointer;
-    border-radius: 5px;
+    transition: all 0.2s ease;
+
+    i {
+        font-size: 20px;
+    }
+
+    span {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background: #f0f7ff;
+        color: #409eff;
+    }
+
+    &.active {
+        background: #f0f7ff;
+        color: #409eff;
+    }
 }
 
-.articles-content-btn img {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    margin-right: 4px;
-}
-
-.articles-content-btn span {
-    color: #999;
+.divider {
+    margin: 32px 0;
 }
 
 .article-comment {
-    width: 100%;
-}
-
-.article-comment-block {
-    position: relative;
-    display: flex;
-}
-
-.article-comment-block-root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    float: left;
-    position: relative;
-    top: 15px;
-    height: 80px;
-    flex: 1;
-    margin-right: 30px;
-    border-right: 1px solid #ccc;
-}
-
-.article-comment-block-root-img {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    border: 1px solid #ccc;
-}
-
-.article-comment-block-root-name {
-    margin-top: 10px;
-    font-size: 15px;
-    color: #37a;
-}
-
-.article-comment-block-comment {
-    flex: 6;
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     text-align: left;
 }
 
-.article-comment-block-comment-time {
-    float: right;
-    color: #999;
+.comment-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2129;
+    margin-bottom: 24px;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f2f3f5;
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.comment-content-wrapper {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2129;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #c0c4cc;
+}
+
+.comment-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #303133;
+    margin-bottom: 8px;
+}
+
+.comment-actions {
+    .reply-btn {
+        font-size: 13px;
+        color: #909399;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: #409eff;
+        }
+    }
+}
+
+.child-comments {
+    margin-top: 16px;
+    background: #f7f8fa;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.child-comment-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.child-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a8a8a8 0%, #8a8a8a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.child-content-wrapper {
+    flex: 1;
+}
+
+.child-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.child-author {
     font-size: 13px;
+    font-weight: 500;
+    color: #606a75;
 }
 
-.article-comment-block-comment-to-comment {
-    margin-left: 20px;
-    position: relative;
-    top: 30px;
-    width: 100%;
-    background-color: #eaecee;
-    margin-bottom: 120px;
-    right: 40px;
+.child-time {
+    font-size: 11px;
+    color: #c0c4cc;
 }
 
-.artilce-comment-to-comment-block {
-    position: relative;
-    margin-top: 3px;
-}
-
-.article-comment-block-comment-img {
-    margin: 5px 10px;
-    width: 25px;
-    height: 25px;
-}
-
-.article-comment-block-comment-name {
-    margin: 5px 0;
-}
-
-.article-comment-block-comment-reply {
-    float: right;
-    font-size: 13px;
-    margin-left: 20px;
-    margin-right: 40px;
-    margin-top: -3px;
-}
-
-.article-comment-block-comment-reply:hover {
-    cursor: pointer;
-    background-color: #999;
-}
-
-.article-comment-block-comment-to-comment {
-    margin-top: 30px;
-}
-
-.artilce-comment-to-comment-block {
-    height: 50px;
-    margin-top: 5px;
+.child-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4c4d4f;
 }
 
 .article-comment-reply {
-    margin-top: 30px;
-    position: relative;
-    height: 200px;
+    background: #f7f8fa;
+    border-radius: 10px;
+    padding: 20px;
 }
 
-.article-comment-reply-btn {
-    position: absolute;
-    top: 85px;
-    right: 0;
+.reply-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d2129;
+    margin-bottom: 16px;
+}
+
+.reply-textarea {
+    margin-bottom: 12px;
+}
+
+.reply-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 10px 28px;
+    font-weight: 500;
+
+    &:hover {
+        opacity: 0.9;
+    }
 }
 </style>
