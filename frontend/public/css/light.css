@@ -31,6 +31,44 @@
   background-color: #fff;
 }
 
+:root .home-aside {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border-right: 1px solid #e2e8f0;
+}
+
+:root .el-menu-vertical {
+  background-color: transparent !important;
+}
+
+:root .custom-menu-item.el-menu-item {
+  color: #475569;
+
+  &:hover {
+    background-color: #f1f5f9 !important;
+    color: #1e293b;
+  }
+
+  &.is-active {
+    background: linear-gradient(90deg, rgba(64, 158, 255, 0.1) 0%, rgba(64, 158, 255, 0.03) 100%) !important;
+    color: #409eff;
+  }
+}
+
+:root .home-aside {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border-right: 1px solid #e2e8f0;
+}
+
+:root .toggle-btn {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  color: #64748b !important;
+
+  &:hover {
+    background-color: rgba(64, 158, 255, 0.1) !important;
+    color: #409eff !important;
+  }
+}
+
 
 /* 覆盖Element-UI默认样式 - 亮色 */
 /* 按钮样式 */

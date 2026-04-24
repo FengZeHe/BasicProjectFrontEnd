@@ -7,7 +7,7 @@
 
     <div class="content">
       <el-card v-for="items in DraftList" class="draftview-content-card" :key="items.id"
-        shadow="hover" @click.native="goToWriteArticle(items)">
+          shadow="hover" @click.native="goToWriteArticle(items)">
         <div class="draftview-content-card-title">{{ items.title }}</div>
         <div class="draftview-content-card-content">{{ items.content }}</div>
         <div class="draftview-content-card-action">
@@ -34,15 +34,15 @@ export default {
   },
   methods: {
     goToWriteArticle(items) {
-      this.$router.push({name: "writeArticles", query: {items: JSON.stringify(items)}});
+      this.$router.push({ name: 'writeArticles', query: { items: JSON.stringify(items) } });
     },
     tryHttp() {
       axios.get("/draft/getArticles").then(response => {
         this.DraftList = response.data.data
       })
     },
-    handleDelete(val){
-      console.log("我要删除",val)
+    handleDelete(val) {
+      console.log("我要删除", val)
     }
   },
   created() {

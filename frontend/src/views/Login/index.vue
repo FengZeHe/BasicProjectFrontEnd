@@ -2,24 +2,24 @@
   <div class="login-container">
     <el-card class="login-card">
       <div class="login-header">
-        <img src="../assets/logo.png" alt="Logo" class="login-logo">
+        <img src="@/assets/logo.png" alt="Logo" class="login-logo">
         <h2>欢迎登录</h2>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="loginForm" class="login-form">
         <el-form-item prop="email">
           <el-input
-            v-model="loginForm.email"
-            prefix-icon="el-icon-message"
-            placeholder="请输入邮箱">
+              v-model="loginForm.email"
+              prefix-icon="el-icon-message"
+              placeholder="请输入邮箱">
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            v-model="loginForm.password"
-            prefix-icon="el-icon-lock"
-            type="password"
-            placeholder="请输入密码"
-            @keyup.enter.native="handleLogin">
+              v-model="loginForm.password"
+              prefix-icon="el-icon-lock"
+              type="password"
+              placeholder="请输入密码"
+              @keyup.enter.native="handleLogin">
           </el-input>
         </el-form-item>
         <div class="login-actions">
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import axios from "@/axios"
+import axios from "@/axios";
 
 export default {
   name: 'Login',
@@ -92,7 +92,7 @@ export default {
       });
     },
     SetJwtToken(token) {
-      localStorage.setItem('userToken',token)
+      localStorage.setItem('userToken', token)
     }
   }
 }
@@ -104,7 +104,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .login-card {

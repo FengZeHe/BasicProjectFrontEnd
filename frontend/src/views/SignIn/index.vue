@@ -2,31 +2,31 @@
   <div class="signin-container">
     <el-card class="signin-card">
       <div class="signin-header">
-        <img src="../assets/logo.png" alt="Logo" class="signin-logo">
+        <img src="@/assets/logo.png" alt="Logo" class="signin-logo">
         <h2>用户注册</h2>
       </div>
       <el-form :model="registerForm" :rules="rules" ref="registerForm" class="signin-form">
         <el-form-item prop="email">
           <el-input
-            v-model="registerForm.email"
-            prefix-icon="el-icon-message"
-            placeholder="请输入邮箱">
+              v-model="registerForm.email"
+              prefix-icon="el-icon-message"
+              placeholder="请输入邮箱">
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            v-model="registerForm.password"
-            prefix-icon="el-icon-lock"
-            type="password"
-            placeholder="请输入密码">
+              v-model="registerForm.password"
+              prefix-icon="el-icon-lock"
+              type="password"
+              placeholder="请输入密码">
           </el-input>
         </el-form-item>
         <el-form-item prop="confirmPassword">
           <el-input
-            v-model="registerForm.confirmPassword"
-            prefix-icon="el-icon-lock"
-            type="password"
-            placeholder="请确认密码">
+              v-model="registerForm.confirmPassword"
+              prefix-icon="el-icon-lock"
+              type="password"
+              placeholder="请确认密码">
           </el-input>
         </el-form-item>
         <div class="signin-actions">

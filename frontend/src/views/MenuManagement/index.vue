@@ -4,7 +4,7 @@
     <el-table :data="menuList" style="width:100%">
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="path" label="路径" width="180"></el-table-column>
-      <el-table-column prop="order_no" label="序号" width="180"></el-table-column>
+      <el-table-column prop="orderNo" label="序号" width="180"></el-table-column>
       <el-table-column label="操作" width="180">
         <template v-slot="scope">
           <el-button-group>
@@ -16,12 +16,11 @@
   </div>
 </template>
 
-
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  name: 'menuManagement',
+  name: 'MenuManagement',
   data() {
     return {
       menuList: []
@@ -33,7 +32,7 @@ export default {
       if (token) {
         axios.get("http://127.0.0.1:8088/v2/menus/list", {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': 'Bearer ' + token
           }
         }).then(res => {
           this.menuList = JSON.parse(JSON.stringify(res.data.data))
@@ -41,12 +40,10 @@ export default {
         })
       }
     },
-    // 获取用户的token
     getToken() {
-      const token = localStorage.getItem("userToken");
+      const token = localStorage.getItem('userToken');
       return token;
     }
-
   },
   created() {
     this.getMenu()
@@ -55,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-.menuManagement{
+.menuManagement {
   text-align: center;
 }
 </style>

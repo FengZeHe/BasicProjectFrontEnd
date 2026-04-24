@@ -28,8 +28,7 @@
             :title="isEdit ? '编辑任务' : '添加任务'"
             size="40%"
             :visible.sync="drawer"
-            @close="handleDrawerClose"
-        >
+            @close="handleDrawerClose">
             <el-form ref="form" :model="editForm" label-width="100px">
                 <el-form-item label="任务名称">
                     <el-input v-model="editForm.taskName" :disabled="isEdit"></el-input>
@@ -75,32 +74,15 @@ export default {
     },
     methods: {
         async fetchTasks() {
-
-            const req = {
-                pageIndex: 1,
-                pageSize: 10
-            }
-
-            await axios.get("/task/", {
-                params: req
-            }).then((res) => {
-                this.tableData = res.data.data.data
+            const req = { pageIndex: 1, pageSize: 10 };
+            await axios.get("/task/", { params: req }).then((res) => {
+                this.tableData = res.data.data.data;
             }).catch((err) => {
-                console.log(err)
-            })
-
-
-
-            // await axios.post("/article/getArticles", data).then(res => {
-            //     console.log("article", res)
-            // })
-
-
+                console.log(err);
+            });
         },
         async handleStart(row) {
-            await axios.post("/task/start", {
-                id: row.ID
-            }).then(() => {
+            await axios.post("/task/start", { id: row.ID }).then(() => {
                 this.$message.success(`启动任务: ${row.taskName}`);
                 this.fetchTasks();
             }).catch((err) => {
@@ -109,9 +91,7 @@ export default {
             });
         },
         async handlePause(row) {
-            await axios.post("/task/pause", {
-                id: row.ID
-            }).then(() => {
+            await axios.post("/task/pause", { id: row.ID }).then(() => {
                 this.$message.success(`暂停任务: ${row.taskName}`);
                 this.fetchTasks();
             }).catch((err) => {
@@ -186,16 +166,14 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(async () => {
-                await axios.post("/task/delete", {
-                    id: row.ID
-                }).then(() => {
+                await axios.post("/task/delete", { id: row.ID }).then(() => {
                     this.$message.success(`删除任务: ${row.taskName}`);
                     this.fetchTasks();
                 }).catch((err) => {
                     console.log(err);
                     this.$message.error("删除失败");
                 });
-            }).catch(() => { });
+            }).catch(() => {});
         }
     }
 };

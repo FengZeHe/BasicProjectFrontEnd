@@ -8,16 +8,14 @@
                     <img class="homeview-card-avatar" src="@/assets/bruce.jpg" alt="">
                     <div class="homeview-card-authorName">{{ item.author }}</div>
                 </div>
-                <!-- <div class="homeview-content-card-content">{{ item.content }}</div> -->
             </el-card>
         </div>
-
-
     </div>
 </template>
 
 <script>
-import axios from "@/axios"
+import axios from "@/axios";
+
 export default {
     name: "CollectionView",
     data() {
@@ -27,16 +25,14 @@ export default {
     },
     methods: {
         async getCollection(pageIndex, pageSize) {
-            const fd = new FormData()
-            fd.append('pageIndex', pageIndex)
-            fd.append('pageSize', pageSize)
+            const fd = new FormData();
+            fd.append('pageIndex', pageIndex);
+            fd.append('pageSize', pageSize);
             await axios.get('/interactive/collection', fd, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then((res) => {
-                this.collectList = res.data.data.collectList
-            }).catch((err)=>{
-                
-            })
+                this.collectList = res.data.data.collectList;
+            }).catch((err) => {});
         },
         handleCardClick(item) {
             this.$router.push({
@@ -44,59 +40,55 @@ export default {
                 query: {
                     article: JSON.stringify(item),
                 }
-            }).catch(() => {
-
-            })
-
-        },
-
+            }).catch(() => {});
+        }
     },
     created() {
-        this.getCollection()
+        this.getCollection();
     }
-}
+};
 </script>
 
 <style scoped>
 .collection {
-  padding: 20px;
+    padding: 20px;
 }
 
 .homeview-content-card {
-  margin-top: 1rem;
+    margin-top: 1rem;
 }
 
 .homeview-content-card-author {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 10px;
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding: 10px;
 }
 
 .homeview-card-avatar {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  float: none;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    float: none;
 }
 
 .homeview-card-authorName {
-  font-size: 12px;
-  color: #868686;
-  margin: 0;
+    font-size: 12px;
+    color: #868686;
+    margin: 0;
 }
 
 .homeview-content-card-title {
-  padding: 10px 15px 5px;
-  font-size: 14px;
-  color: #646464;
-  font-weight: bold;
-  text-align: left;
+    padding: 10px 15px 5px;
+    font-size: 14px;
+    color: #646464;
+    font-weight: bold;
+    text-align: left;
 }
 
 .clearfix::after {
-  content: "";
-  display: block;
-  clear: both;
+    content: "";
+    display: block;
+    clear: both;
 }
 </style>

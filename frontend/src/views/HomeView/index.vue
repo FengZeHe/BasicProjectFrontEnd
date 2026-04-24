@@ -30,7 +30,7 @@
 
 <script>
 import axios from "@/axios"
-import Article from "@/views/Articles.vue"
+import Article from "@/views/Articles/index.vue";
 
 export default {
   name: 'HomeView',

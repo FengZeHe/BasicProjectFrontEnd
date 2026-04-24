@@ -3,7 +3,7 @@
     <br>
     <h3>标题</h3>
     <el-input v-model="Article.title" placeholder="请输入标题"></el-input>
-    <h3>文章正文 </h3>
+    <h3>文章正文</h3>
     <el-input type="textarea" :autosize="{ minRows: 20, maxRows: 30 }" placeholder="请输入内容" v-model="Article.content">
     </el-input>
 
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from "@/axios"
+import axios from "@/axios";
 
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
         console.log(response)
         this.showSuccessMsg("保存成功")
         console.log("发表成功了准备跳转！！！")
-        if (status === 0) {
+        if (status === '0') {
           this.$router.push("/draftList");
         } else {
           this.$router.push('/');
@@ -62,13 +62,13 @@ export default {
         "authorID": this.Article.authorID,
         "title": this.Article.title,
         "content": this.Article.content,
-        "status": status // 0 未发表， 1已发表
+        "status": status
       }
       axios.post("/draft/updateArticle", data).then(response => {
         console.log("res", response.data.data)
         var msg = response.data.data
         this.showSuccessMsg(msg)
-        if (status === 0 || status === "0") {
+        if (status === '0') {
           this.$router.push("/draftList");
         } else {
           this.$router.push('/');
@@ -112,18 +112,14 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    const comfirmLeave = window.confirm("文章内容未保存,确定要离开吗?")
-    if (comfirmLeave) {
+    const confirmLeave = window.confirm("文章内容未保存,确定要离开吗?")
+    if (confirmLeave) {
       next();
     } else {
       next(false);
     }
   }
-
-
 }
-
-
 </script>
 
 <style scoped></style>

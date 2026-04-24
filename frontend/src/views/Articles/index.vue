@@ -1,9 +1,9 @@
 <template>
     <div class="articles">
         <h1 class="articles-title">{{ article.title }}</h1>
-        <img class="articles-icon clearfix" src="@/assets/bruce.jpg">
+        <img class="articles-icon clearfix" src="@/assets/bruce.jpg" alt="">
         <div class="articles-author">{{ article.authorName }}</div>
-        <div class="articles-time">{{ article.created_at }}</div>
+        <div class="articles-time">{{ article.createdAt }}</div>
         <div class="articles-content">
             <p v-for="(paragraph, index) in paragraphs" :key="index">{{ paragraph }}</p>
         </div>
@@ -15,17 +15,13 @@
 
         <div class="articles-content-btn" @click="handleLike">
             <img :src="selectImg('like', interactiveStatus.liked)" alt="">
-            <span> {{ interactiveStatus.likeCount }}</span>
+            <span>{{ interactiveStatus.likeCount }}</span>
         </div>
-
-
 
         <el-divider></el-divider>
         <div class="article-comment">
             <div class="article-comment-block" v-for="item in comment.list" :key="item.parent.id">
-                <!-- 评论块 -->
                 <div class="article-comment-block-root">
-                    <!-- 头像+名称 -->
                     <img class="article-comment-block-root-img" src="@/assets/cat.jpg" alt="">
                     <div class="article-comment-block-root-name">Cat</div>
                 </div>
@@ -34,7 +30,6 @@
                     <div class="article-comment-block-comment-reply">回复</div>
                     <div class="article-comment-block-comment-time">{{ item.parent.createdAt }}</div>
 
-
                     <div class="article-comment-block-comment-to-comment" v-for="child in item.child" :key="child.id">
                         <div class="artilce-comment-to-comment-block">
                             <img class="article-comment-block-comment-img" src="@/assets/cat.jpg" alt="">
@@ -42,7 +37,6 @@
                             <div class="article-comment-block-comment-reply">回复</div>
                             <div class="article-comment-block-comment-time">{{ child.createdAt }}</div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -53,14 +47,12 @@
                 <el-button class="article-comment-reply-btn">提交</el-button>
             </div>
         </div>
-
     </div>
-
-
 </template>
 
 <script>
-import axios from "@/axios"
+import axios from "@/axios";
+
 export default {
     props: [],
     data() {
@@ -86,47 +78,44 @@ export default {
             }
         },
         getArticleDetail() {
-            const req = {
-                "id": this.article.id
-            }
+            const req = { "id": this.article.id };
             axios.post("/article/getArticleByID", req).then(res => {
-                this.article = res.data.data
+                this.article = res.data.data;
                 this.paragraphs = this.article.content.split('\\n').filter(p => p.trim() !== '');
-            })
-
-            this.getArticleStatus(this.article.id)
+            });
+            this.getArticleStatus(this.article.id);
         },
         getArticleComment() {
             const params = {
                 aid: this.article.id
-            }
+            };
             axios.get("/comment/", { params }).then(response => {
-                this.comment.data = response.data.data
-                var pn = []
+                this.comment.data = response.data.data;
+                var pn = [];
                 for (let i = 0; i < this.comment.data.length; i++) {
-                    const temp = this.comment.data[i]
-                    if (temp.id === temp.rid.Int64) {  // 以顶层评论作为节点
-                        pn.push(temp)
+                    const temp = this.comment.data[i];
+                    if (temp.id === temp.rid.Int64) {
+                        pn.push(temp);
                     }
                 }
-                this.comment.parentNodes = pn
-                this.SortOutComments()
+                this.comment.parentNodes = pn;
+                this.SortOutComments();
             }).catch(error => {
-                console.log(error)
-            })
+                console.log(error);
+            });
         },
         SortOutComments() {
             for (let i = 0; i < this.comment.parentNodes.length; i++) {
-                var node = {}
-                var child = []
+                var node = {};
+                var child = [];
                 for (let j = 0; j < this.comment.data.length; j++) {
                     if (this.comment.parentNodes[i].id === this.comment.data[j].pid.Int64) {
-                        node.parent = this.comment.parentNodes[i]
-                        child.push(this.comment.data[j])
-                        node['child'] = [...child]
+                        node.parent = this.comment.parentNodes[i];
+                        child.push(this.comment.data[j]);
+                        node.child = [...child];
                     }
                 }
-                this.comment.list.push(node)
+                this.comment.list.push(node);
             }
         },
         handleLike() {
@@ -156,7 +145,7 @@ export default {
                 console.log(res)
             }).catch((err) => {
                 console.log(err)
-            })
+            });
         },
         async addArtCollect() {
             await axios.post("/interactive/collect", {
@@ -164,9 +153,9 @@ export default {
                 "collect": this.interactiveStatus.collected
             }).then((res) => {
                 console.log(res)
-            }).then((err) => {
+            }).catch((err) => {
                 console.log(err)
-            })
+            });
         },
         async getArticleStatus(aid) {
             await axios.get("/interactive/status", {
@@ -174,11 +163,11 @@ export default {
                     "aid": aid
                 }
             }).then((res) => {
-                const temp = res.data.data
-                this.interactiveStatus = temp
+                const temp = res.data.data;
+                this.interactiveStatus = temp;
             }).catch((err) => {
                 console.log("err", err)
-            })
+            });
         },
     },
     computed: {
@@ -194,19 +183,14 @@ export default {
                     return require("@/assets/collect.png");
                 }
             }
-        },
-
-
+        }
     },
-
     created() {
-        this.getArticleFromHomeView()
-        this.getArticleDetail()
-        this.getArticleComment()
-    },
-
-}
-
+        this.getArticleFromHomeView();
+        this.getArticleDetail();
+        this.getArticleComment();
+    }
+};
 </script>
 
 <style>
@@ -232,7 +216,6 @@ export default {
     font-size: 16px;
 }
 
-
 .articles-time {
     text-align: left;
     position: relative;
@@ -251,9 +234,9 @@ export default {
     float: left;
 }
 
-.clearfix::after{
+.clearfix::after {
     content: "";
-    display:  block;
+    display: block;
     clear: both;
 }
 
@@ -295,9 +278,7 @@ export default {
 }
 
 .articles-content-btn span {
-    /* border: 1px solid red ; */
     color: #999;
-    /* font-size: 20px; */
 }
 
 .article-comment {
@@ -307,7 +288,6 @@ export default {
 .article-comment-block {
     position: relative;
     display: flex;
-
 }
 
 .article-comment-block-root {
@@ -330,7 +310,6 @@ export default {
     height: 50px;
     display: flex;
     border: 1px solid #ccc;
-
 }
 
 .article-comment-block-root-name {
@@ -362,10 +341,8 @@ export default {
 
 .artilce-comment-to-comment-block {
     position: relative;
-    /* border: 1px solid red; */
     margin-top: 3px;
 }
-
 
 .article-comment-block-comment-img {
     margin: 5px 10px;
@@ -390,8 +367,6 @@ export default {
     background-color: #999;
 }
 
-
-
 .article-comment-block-comment-to-comment {
     margin-top: 30px;
 }
@@ -410,6 +385,6 @@ export default {
 .article-comment-reply-btn {
     position: absolute;
     top: 85px;
-    right: 0px;
+    right: 0;
 }
 </style>

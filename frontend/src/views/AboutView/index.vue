@@ -1,20 +1,16 @@
 <template>
   <div class="about-container">
     <div class="profile-card">
-      <!-- 头部背景 -->
       <div class="profile-header"></div>
 
-      <!-- 头像区域 -->
       <div class="avatar-section">
         <el-avatar :size="120" :src="avatarUrl" class="user-avatar"></el-avatar>
       </div>
 
-      <!-- 用户信息 -->
       <div class="profile-content">
         <h1 class="user-name">{{ userName }}</h1>
         <p class="user-bio">这个人很神秘，什么都没有留下~</p>
 
-        <!-- 数据统计 -->
         <div class="stats-row">
           <div class="stat-item">
             <div class="stat-number">{{ followingCount }}</div>
@@ -32,7 +28,6 @@
           </div>
         </div>
 
-        <!-- 操作按钮 -->
         <div class="action-buttons">
           <el-button type="primary" size="medium" round>编辑资料</el-button>
           <el-button size="medium" round>更换头像</el-button>

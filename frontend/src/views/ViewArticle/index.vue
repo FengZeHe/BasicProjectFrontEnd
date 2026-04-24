@@ -2,22 +2,20 @@
   <div class="viewArticle">
     <h1>文章列表</h1>
     <div class="content">
-      <el-card v-for="item in this.articles" class="content-card" >
-        <div slot="header" class="card-header"  @click="handleArticleCardClick(item.id)">
+      <el-card v-for="item in this.articles" class="content-card">
+        <div slot="header" class="card-header" @click="handleArticleCardClick(item.id)">
           <span>{{ item.title }}</span>
           <span>{{ item.authorName }}</span>
         </div>
-        <div class="read-count">阅读 {{item.read}}</div>
+        <div class="read-count">阅读 {{ item.read }}</div>
       </el-card>
     </div>
-<!--      @size-change="handleSizeChange"-->
     <el-pagination
         @current-change="handleCurrentChange"
         :total="totalCount"
         :current-page="currentPage"
         small
-        layout="prev, pager, next"
-    >
+        layout="prev, pager, next">
     </el-pagination>
   </div>
 </template>
@@ -58,10 +56,7 @@ export default {
       });
       const data = {
         "id": id,
-      }
-      // axios.post("/article/addReadCount", data).then(res => {
-      //   console.log("addReadCount", res.data.data)
-      // })
+      };
     }
   },
   data() {
@@ -80,7 +75,6 @@ export default {
 </script>
 
 <style>
-
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -92,7 +86,7 @@ export default {
   position:relative;
 }
 
-.read-count{
+.read-count {
   position: absolute;
   bottom:10px;
   right: 10px;
