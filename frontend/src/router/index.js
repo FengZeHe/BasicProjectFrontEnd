@@ -14,6 +14,8 @@ import Article from '../views/Articles/index.vue'
 import Collection from '@/views/CollectionView/index.vue'
 import ScheduledTask from '@/views/ScheduledTask/index.vue'
 import UserProfile from '@/views/UserProfile/index.vue'
+import FolloweeList from '@/views/FolloweeListView/index.vue'
+import FollowerList from '@/views/FollowerListView/index.vue'
 
 Vue.use(VueRouter)
 
@@ -95,6 +97,16 @@ const routes = [
         path: '/userProfile',
         name: 'userProfile',
         component: UserProfile,
+        mate: { noMenu: false, requireAuth: true },
+    }, {
+        path: '/followeeList',
+        name: 'followeeList',
+        component: FolloweeList,
+        mate: { noMenu: false, requireAuth: true },
+    }, {
+        path: '/followerList',
+        name: 'followerList',
+        component: FollowerList,
         mate: { noMenu: false, requireAuth: true },
     }
 ]

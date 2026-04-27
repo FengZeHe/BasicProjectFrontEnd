@@ -21,15 +21,12 @@
             <div class="stat-number">{{ followersCount }}</div>
             <div class="stat-label">粉丝</div>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <div class="stat-number">{{ postsCount }}</div>
-            <div class="stat-label">帖子</div>
-          </div>
         </div>
 
         <div class="action-buttons">
-          <el-button type="primary" size="medium" round>关注</el-button>
+          <el-button :type="isFollowing ? 'default' : 'primary'" size="medium" round @click="toggleFollow">
+            {{ isFollowing ? '已关注' : '关注' }}
+          </el-button>
         </div>
       </div>
     </div>
@@ -48,6 +45,7 @@ export default {
       followingCount: 128,
       followersCount: 256,
       postsCount: 64,
+      isFollowing: false,
 
       base64Data: '',
       imageSrc: '',
@@ -172,11 +170,56 @@ export default {
       }).catch(err => {
         console.error(err);
       });
+    },
+    getRelationshipCount() {
+      const authorId = this.$route.query.author_id;
+      if (!authorId) return;
+      axios.get('/relationship/count', {
+        params: { uid: authorId }
+      }).then(res => {
+        if (res.data.data) {
+          this.followingCount = res.data.data.followee_num;
+          this.followersCount = res.data.data.follower_num;
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+    },
+    toggleFollow() {
+      const authorId = this.$route.query.author_id;
+      if (!authorId) return;
+      const action = this.isFollowing ? 0 : 1;
+      axios.post('/relationship/follow', {
+        uid: authorId,
+        action: action
+      }).then(res => {
+        if (res.data.message === 'ok') {
+          this.isFollowing = !this.isFollowing;
+          this.getRelationshipCount();
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+    },
+    checkFollowStatus() {
+      const authorId = this.$route.query.author_id;
+      if (!authorId) return;
+      axios.get('/relationship/', {
+        params: { uid: authorId }
+      }).then(res => {
+        if (res.data.data) {
+          this.isFollowing = res.data.data.status === '1';
+        }
+      }).catch(err => {
+        console.error(err);
+      });
     }
   },
   mounted() {
     // this.getBase64Image();
     this.getUserProfile();
+    this.getRelationshipCount();
+    this.checkFollowStatus();
   },
 };
 </script>

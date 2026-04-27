@@ -12,19 +12,14 @@
         <p class="user-bio">这个人很神秘，什么都没有留下~</p>
 
         <div class="stats-row">
-          <div class="stat-item">
+          <div class="stat-item" @click="goToFolloweeList">
             <div class="stat-number">{{ followingCount }}</div>
             <div class="stat-label">关注</div>
           </div>
           <div class="stat-divider"></div>
-          <div class="stat-item">
+          <div class="stat-item" @click="goToFollowerList">
             <div class="stat-number">{{ followersCount }}</div>
             <div class="stat-label">粉丝</div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <div class="stat-number">{{ postsCount }}</div>
-            <div class="stat-label">帖子</div>
           </div>
         </div>
 
@@ -46,9 +41,8 @@ export default {
     return {
       userName: 'Admin',
       avatarUrl: require('@/assets/avatar.png'),
-      followingCount: 128,
-      followersCount: 256,
-      postsCount: 64,
+      followingCount: 0,
+      followersCount: 0,
 
       base64Data: '',
       imageSrc: '',
@@ -161,9 +155,32 @@ export default {
             console.error(err);
           });
     },
+    getRelationshipCountMe() {
+      axios.get('/relationship/countMe')
+        .then(res => {
+          if (res.data.data) {
+            this.followingCount = res.data.data.followee_num;
+            this.followersCount = res.data.data.follower_num;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    goToFolloweeList() {
+      this.$router.push({
+        name: 'followeeList'
+      }).catch(() => {});
+    },
+    goToFollowerList() {
+      this.$router.push({
+        name: 'followerList'
+      }).catch(() => {});
+    }
   },
   mounted() {
-    this.getBase64Image();
+    // this.getBase64Image();
+    this.getRelationshipCountMe();
   },
 };
 </script>
