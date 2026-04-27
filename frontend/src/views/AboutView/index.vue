@@ -167,6 +167,17 @@ export default {
           console.error(err);
         });
     },
+    getUserProfile() {
+      axios.get('/sys/myProfileByUID')
+        .then(res => {
+          if (res.data.data) {
+            this.userName = res.data.data.nickName;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
     goToFolloweeList() {
       this.$router.push({
         name: 'followeeList'
@@ -181,6 +192,7 @@ export default {
   mounted() {
     // this.getBase64Image();
     this.getRelationshipCountMe();
+    this.getUserProfile();
   },
 };
 </script>
